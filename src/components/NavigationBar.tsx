@@ -4,7 +4,7 @@ import styled from '@emotion/styled';
 export const NavigationBar: React.FC = () => {
   return (
     <div className="flex h-[32px]">
-      <div
+      <Container
         className="fixed top-0 left-0 right-0 w-full max-w-2xl mx-auto h-[84px] pt-4 flex justify-between z-50"
         style={{
           background: `linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0), 90%)`,
@@ -34,10 +34,17 @@ export const NavigationBar: React.FC = () => {
             alt=""
           />
         </div>
-      </div>
+      </Container>
     </div>
   );
 };
+
+const Container = styled.div`
+  pointer-events: none;
+  & * {
+    pointer-events: auto;
+  }
+`;
 
 const Points = styled.span`
   color: #fff;
