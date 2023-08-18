@@ -1,3 +1,4 @@
+import Link from 'next/link';
 import React from 'react';
 
 const HomePage = () => {
@@ -27,9 +28,11 @@ const HomePage = () => {
       </div>
 
       <div className="flex justify-center w-full gap-2 mt-2">
-        <button className="bg-[#F83E90] hover:bg-[#ff3084] px-12 py-4 font-bold transition-all shadow-2xl shadow-pink-600/40 hover:text-zinc-950 hover:shadow-pink-600/65">
-          Buy
-        </button>
+        <Link href="/cards/open">
+          <button className="bg-[#F83E90] hover:bg-[#ff3084] px-12 py-4 font-bold transition-all shadow-2xl shadow-pink-600/40 hover:text-zinc-950 hover:shadow-pink-600/65">
+            Buy
+          </button>
+        </Link>
       </div>
     </div>
   );
