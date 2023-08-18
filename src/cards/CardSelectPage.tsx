@@ -1,6 +1,7 @@
+import { NextPage } from 'next';
 import React from 'react';
 
-const CardSelectPage = () => {
+const CardSelectPage: NextPage = () => {
   return (
     <div className="flex flex-col items-center">
       {/* 카드팩 에셋, 정가, 할인가, 할인률, 구매하기 버튼 */}
