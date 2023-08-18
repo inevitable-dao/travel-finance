@@ -2,6 +2,8 @@ import { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
+import { Button } from '@/components/Button';
+
 const HomePage: NextPage = () => {
   return (
     <div className="flex flex-col items-center">
@@ -30,9 +32,7 @@ const HomePage: NextPage = () => {
 
       <div className="flex justify-center w-full gap-2 mt-2">
         <Link href="/cards/open">
-          <button className="bg-[#F83E90] hover:bg-[#ff3084] px-12 py-4 font-bold transition-all shadow-2xl shadow-pink-600/40 hover:text-zinc-950 hover:shadow-pink-600/65">
-            Buy
-          </button>
+          <Button>Buy</Button>
         </Link>
       </div>
     </div>
