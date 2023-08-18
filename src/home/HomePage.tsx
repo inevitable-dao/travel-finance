@@ -10,7 +10,15 @@ const HomePage: NextPage = () => {
     <div className="flex flex-col items-center">
       {/* 카드팩 에셋, 정가, 할인가, 할인률, 구매하기 버튼 */}
 
-      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square" />
+      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0">
+        <img
+          alt=""
+          src="/assets/glitch.png"
+          className="w-[157px] h-[197px] absolute bottom-[-51px] right-[-34px] z-10"
+        />
+
+        <div className="w-[64px] h-[100px] absolute bottom-[-24px] right-[-40px] bg-pink-400/20 z-20 backdrop-blur-sm" />
+      </div>
 
       <div className="flex w-full">
         <div className="flex flex-col items-center flex-1 mt-4">

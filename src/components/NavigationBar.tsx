@@ -7,7 +7,7 @@ export const NavigationBar: React.FC = () => {
       <Container
         className="fixed top-0 left-0 right-0 w-full max-w-2xl mx-auto h-[84px] pt-4 flex justify-between z-50"
         style={{
-          background: `linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0), 90%)`,
+          background: `linear-gradient(to bottom, #000000, rgba(0, 0, 0, 0) 90%)`,
         }}
       >
         <div />
