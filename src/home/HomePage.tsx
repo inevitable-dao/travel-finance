@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
@@ -11,22 +12,47 @@ const HomePage: NextPage = () => {
 
       <div className="w-full max-w-[400px] bg-zinc-900 aspect-square" />
 
-      <div className="flex">
-        <div className="flex flex-col items-end flex-1 mt-2">
-          <span className="text-base font-medium text-white">
+      <div className="flex w-full">
+        <div className="flex flex-col items-center flex-1 mt-4">
+          <span
+            className="flex items-center justify-center h-6 px-3 py-3 text-base font-medium text-center text-pink-300 border-solid border-[1px] border-pink-100/10 rounded-full w-fit bg-slate-100"
+            style={{
+              background: `linear-gradient(90deg, rgb(255, 201, 225, 0.1) 0%, rgba(255, 138, 189, 0.3) 47.92%, rgb(255, 200, 224, 0.1) 100%)`,
+            }}
+          >
+            <img
+              src="/assets/busan.png"
+              className="w-[14px] h-[14px] mr-1 inline-block"
+              alt=""
+            />
             Busan Card Pack #1
           </span>
 
           {/* original price */}
-          <span>
-            <span className="mr-2 text-white text-bold">20%</span>
-            <span className="text-2xl line-through text-slate-400">
-              <span>500,000</span>
+          <span className="flex items-center gap-1.5 mt-3">
+            <span className="font-bold text-sky-500">20%</span>
+
+            <span className="flex items-center">
+              <img
+                src="/assets/coin.png"
+                className="inline-block w-[32px] h-[32px] grayscale-[100%]"
+                alt=""
+              />
+              <span className="text-2xl line-through text-slate-400">
+                500,000
+              </span>
             </span>
           </span>
 
           {/* current price */}
-          <span className="text-2xl text-white">200,000</span>
+          <span className="flex items-center">
+            <img
+              src="/assets/coin.png"
+              className="inline-block w-[40px] h-[40px]"
+              alt=""
+            />
+            <span className="text-3xl font-bold text-white">200,000</span>
+          </span>
         </div>
       </div>
 
