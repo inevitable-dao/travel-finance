@@ -15,7 +15,9 @@ const CardOpenPage: NextPage = () => {
   return (
     <div className="flex flex-col items-center">
       {stage === Stage.COVER && (
-        <div className="flex justify-center w-full gap-2 mt-2">
+        <div className="flex flex-col items-center justify-center w-full h-full gap-2 mt-4">
+          <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0"></div>
+
           <Button
             onClick={() => {
               setStage(Stage.RESULT);

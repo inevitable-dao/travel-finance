@@ -3,6 +3,8 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
+import { Button } from '@/components/Button';
+
 const InventoryCardDetailPage: NextPage = () => {
   const router = useRouter();
 
@@ -27,6 +29,14 @@ const InventoryCardDetailPage: NextPage = () => {
             부산광역시 해운대구에 있는 해수욕장. 광안대교와 더불어 외지인들에게
             가장 유명한 부산광역시의 양대 랜드마크이다.
           </p>
+
+          <div className="flex justify-center w-full gap-2 mt-2">
+            <Link href="/cards/upgrade">
+              <Button>Upgrade</Button>
+            </Link>
+
+            <Button variant="secondary">Select</Button>
+          </div>
         </div>
       </div>
     </div>
