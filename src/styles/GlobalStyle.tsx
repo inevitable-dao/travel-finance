@@ -20,6 +20,11 @@ export const GlobalStyle: React.FC = () => (
         letter-spacing: -0.5px;
       }
 
+      img {
+        -webkit-user-drag: none;
+        user-select: none;
+      }
+
       a {
         text-decoration: none;
         cursor: pointer;
