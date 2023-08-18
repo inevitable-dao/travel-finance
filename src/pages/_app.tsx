@@ -1,17 +1,19 @@
 import { AppProps } from 'next/app';
 import React from 'react';
 
-import { GlobalStyle } from '@/components/GlobalStyle';
+import { MobileContainer } from '@/components/MobileContainer';
+import { GlobalStyle } from '@/styles/GlobalStyle';
+import '@/styles/global.css';
 
 function MyApp({ Component, pageProps }: AppProps) {
   return (
-    <React.Fragment>
+    <MobileContainer>
       {/* @ts-ignore // Type mismatch after upgrading to React 18 */}
       <GlobalStyle />
       <Component {...pageProps} />
 
       <div id="portal" />
-    </React.Fragment>
+    </MobileContainer>
   );
 }
 
