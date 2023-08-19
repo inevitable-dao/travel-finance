@@ -3,6 +3,7 @@ import Link from 'next/link';
 import React, { useState } from 'react';
 
 import { Button } from '@/components/Button';
+import { PageTitle } from '@/components/PageTitle';
 
 enum Stage {
   COVER = 'COVER',
@@ -14,6 +15,8 @@ const CardOpenPage: NextPage = () => {
 
   return (
     <div className="flex flex-col items-center">
+      <PageTitle subtitle="Busan Card Pack #1">Open</PageTitle>
+
       {stage === Stage.COVER && (
         <div className="flex flex-col items-center justify-center w-full h-full gap-2 mt-4">
           <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0"></div>

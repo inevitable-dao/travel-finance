@@ -1,21 +1,26 @@
+import { Undo2 } from 'lucide-react';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React from 'react';
 
 import { Button } from '@/components/Button';
+import { PageTitle } from '@/components/PageTitle';
 
 const InventoryCardDetailPage: NextPage = () => {
   const router = useRouter();
 
   return (
     <div className="flex flex-col items-center">
-      {/* FIXME: Back */}
-      <div className="w-full">
-        <button className="p-4 font-bold text-white" onClick={router.back}>
-          {`<`} Back
-        </button>
-      </div>
+      <PageTitle>
+        <span
+          className="flex items-center gap-2 text-white transition-colors cursor-pointer pointer-events-auto hover:text-slate-400"
+          onClick={router.back}
+        >
+          <Undo2 />
+          Back
+        </span>
+      </PageTitle>
 
       <div className="w-full max-w-[400px] bg-zinc-900 aspect-square" />
 

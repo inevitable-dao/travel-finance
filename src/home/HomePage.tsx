@@ -8,10 +8,12 @@ import React from 'react';
 import { ArticleItem } from '@/components/ArticleItem';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
+import { PageTitle } from '@/components/PageTitle';
 
 const HomePage: NextPage = () => {
   return (
     <div className="flex flex-col items-center">
+      <PageTitle>Home</PageTitle>
       {/* 카드팩 에셋, 정가, 할인가, 할인률, 구매하기 버튼 */}
 
       <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0 rounded-md overflow-hidden">
@@ -87,6 +89,14 @@ const HomePage: NextPage = () => {
         <CardItem />
         <CardItem />
         <CardItem />
+        <div className="flex justify-center w-full mt-2">
+          <button
+            className="text-[#FF4999] text-lg text-center"
+            style={{ fontFamily: 'koverwatch' }}
+          >
+            SHOW ALL
+          </button>
+        </div>
       </div>
 
       <h2
