@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import { CardItem } from '@/components/CardItem';
+import { CardsEmpty } from '@/components/CardsEmpty';
 import { LoginRequired } from '@/components/LoginRequired';
 import { PageTitle } from '@/components/PageTitle';
 
@@ -70,6 +71,8 @@ const InventoryPage: NextPage = () => {
             />
           </Link>
         ))}
+
+        {cards.length === 0 && <CardsEmpty />}
 
         {hasAuthError && <LoginRequired />}
       </div>
