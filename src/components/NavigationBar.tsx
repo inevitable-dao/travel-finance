@@ -24,7 +24,7 @@ export const NavigationBar: React.FC = () => {
             />
             <Points style={{ fontFamily: 'koverwatch' }}>3,200</Points>
           </div>
-          <Name className="bg-[#363641] pl-2 pr-[16px] sm:pr-[16px] h-full w-fit flex items-center leading-none text-slate-300">
+          <Name className="bg-[#363641] pl-2 pr-[16px] sm:pr-[16px] h-full w-fit flex items-center leading-none text-slate-400">
             @junhoyeo
           </Name>
 
