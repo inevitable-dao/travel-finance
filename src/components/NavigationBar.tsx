@@ -13,7 +13,7 @@ export const NavigationBar: React.FC = () => {
         <div />
 
         <div className="h-[27px] flex relative">
-          <div className="bg-[#FF4999] pl-[38px] pr-[16px] w-fit py-2 leading-none min-w-[140px] h-full flex items-center relative">
+          <div className="bg-[#FF4999] pl-[38px] pr-[16px] w-fit py-2 leading-none min-w-0 sm:min-w-[140px] h-full flex items-center relative">
             <img
               src="/assets/coin.png"
               className="w-[38px] h-[38px] left-0 bottom-0 absolute"
@@ -24,7 +24,7 @@ export const NavigationBar: React.FC = () => {
             />
             <Points>3,200</Points>
           </div>
-          <Name className="bg-[#363641] pl-2 pr-[28px] h-full w-fit flex items-center leading-none text-slate-300">
+          <Name className="bg-[#363641] pl-2 pr-[16px] sm:pr-[16px] h-full w-fit flex items-center leading-none text-slate-300">
             @junhoyeo
           </Name>
 
