@@ -1,14 +1,14 @@
 import axios from 'axios';
 import { useCallback, useEffect, useState } from 'react';
 
-type CommonResponse<T> = {
+export type CommonResponse<T> = {
   statusCode: number;
   timeStamp: string;
   path: string;
   result: T;
 };
 
-type CardItem = {
+export type CardItem = {
   id: string;
   type: string;
   name: string;
