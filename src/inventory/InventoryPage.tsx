@@ -59,22 +59,24 @@ const InventoryPage: NextPage = () => {
       </PageTitle>
 
       <div className="flex flex-col w-full">
-        {cards.map((card) => (
-          // eslint-disable-next-line react/jsx-key
-          <Link href={`/inventory/${card.id}`}>
-            <CardItem
-              card={''}
-              name={card.name}
-              type={card.type}
-              address={card.address}
-              rank={card.rank}
-            />
-          </Link>
-        ))}
-
-        {cards.length === 0 && <CardsEmpty />}
-
-        {hasAuthError && <LoginRequired />}
+        {hasAuthError ? (
+          <LoginRequired />
+        ) : cards.length === 0 ? (
+          <CardsEmpty />
+        ) : (
+          cards.map((card) => (
+            // eslint-disable-next-line react/jsx-key
+            <Link href={`/inventory/${card.id}`}>
+              <CardItem
+                card={''}
+                name={card.name}
+                type={card.type}
+                address={card.address}
+                rank={card.rank}
+              />
+            </Link>
+          ))
+        )}
       </div>
     </div>
   );
