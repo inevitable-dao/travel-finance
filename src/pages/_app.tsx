@@ -1,6 +1,7 @@
 import { AppProps } from 'next/app';
 import React from 'react';
 
+import { BottomTabBar } from '@/components/BottomTabBar';
 import { MobileContainer } from '@/components/MobileContainer';
 import { NavigationBar } from '@/components/NavigationBar';
 import { GlobalStyle } from '@/styles/GlobalStyle';
@@ -16,6 +17,8 @@ function MyApp({ Component, pageProps }: AppProps) {
       <Component {...pageProps} />
 
       <div id="portal" />
+
+      <BottomTabBar />
     </MobileContainer>
   );
 }
