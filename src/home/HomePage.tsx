@@ -1,4 +1,4 @@
-import { BadgePercent, Umbrella } from 'lucide-react';
+import { BadgePercent, Umbrella, User2 } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
@@ -22,83 +22,112 @@ const HomePage: NextPage = () => {
       <PageTitle>Home</PageTitle>
       {/* 카드팩 에셋, 정가, 할인가, 할인률, 구매하기 버튼 */}
 
-      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0 rounded-md overflow-hidden">
-        <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
-      </div>
-
-      <div className="flex w-full">
-        <div className="flex flex-col items-center flex-1 mt-4">
-          <span
-            className="flex items-center justify-center h-6 px-3 py-3 text-base font-medium text-center text-pink-300 border-solid border-[1px] border-pink-100/10 rounded-full w-fit bg-slate-100"
-            style={{
-              background: `linear-gradient(90deg, rgb(255, 201, 225, 0.1) 0%, rgba(255, 138, 189, 0.3) 47.92%, rgb(255, 200, 224, 0.1) 100%)`,
-            }}
-          >
-            <img
-              src="/assets/busan.png"
-              className="w-[14px] h-[14px] mr-1 inline-block"
-              alt=""
-            />
-
-            <span
-              style={{
-                fontFamily: 'koverwatch',
-                lineHeight: 1,
-                marginBottom: -2,
-              }}
-            >
-              Busan Card Pack #1
-            </span>
-          </span>
-
-          {/* original price */}
-          <span className="flex items-center gap-1.5 mt-3">
-            <span className="flex items-center gap-0.5 text-sky-500">
-              <BadgePercent className="mb-[3px]" size={17} />
-              <span
-                className="font-bold leading-none"
-                style={{ fontFamily: 'koverwatch' }}
-              >
-                20%
+      <div className="flex flex-col-reverse w-full sm:flex-row">
+        <div className="w-full sm:w-[156px] mt-8 sm:mt-0 justify-center items-center flex flex-col gap-2">
+          <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
+            <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
+            <span className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-xl shadow-lg left-2 bottom-2 bg-zinc-200/50 backdrop-blur-md text-zinc-900">
+              <span className="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-600">
+                <User2 className="" size={12} strokeWidth={3} />
               </span>
+              <span>1~4</span>
             </span>
-
-            <span className="flex items-center">
-              <img
-                src="/assets/coin.png"
-                className="inline-block w-[32px] h-[32px] grayscale-[100%] mb-[4px]"
-                alt=""
-              />
-              <span
-                className="text-2xl leading-none line-through text-slate-400"
-                style={{ fontFamily: 'koverwatch' }}
-              >
-                {originalPrice.toLocaleString()}
+          </div>
+          <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
+            <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
+            <span className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-xl shadow-lg left-2 bottom-2 bg-zinc-200/50 backdrop-blur-md text-zinc-900">
+              <span className="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-600">
+                <User2 className="" size={12} strokeWidth={3} />
               </span>
+              <span>5~</span>
             </span>
-          </span>
-
-          {/* current price */}
-          <span className="flex items-center">
-            <img
-              src="/assets/coin.png"
-              className="inline-block w-[40px] h-[40px] mb-[5px]"
-              alt=""
-            />
-            <span
-              className="text-3xl font-bold leading-none text-white"
-              style={{ fontFamily: 'koverwatch' }}
-            >
-              200,000
-            </span>
-          </span>
+          </div>
         </div>
-      </div>
 
-      <div className="flex justify-center w-full gap-2 mt-2">
-        <Link href="/cards/open">
-          <Button>Buy</Button>
-        </Link>
+        <div className="flex flex-col items-center flex-1">
+          <div className="w-full mt-8 max-w-[400px] bg-zinc-900 aspect-square relative z-0 rounded-md overflow-hidden">
+            <img
+              src="/assets/card-pack.png"
+              className="w-full h-full rounded-[5px]"
+              alt=""
+            />
+          </div>
+
+          <div className="flex w-full">
+            <div className="flex flex-col items-center flex-1 mt-4">
+              <span
+                className="flex items-center justify-center h-6 px-3 py-3 text-base font-medium text-center text-pink-300 border-solid border-[1px] border-pink-100/10 rounded-full w-fit bg-slate-100"
+                style={{
+                  background: `linear-gradient(90deg, rgb(255, 201, 225, 0.1) 0%, rgba(255, 138, 189, 0.3) 47.92%, rgb(255, 200, 224, 0.1) 100%)`,
+                }}
+              >
+                <img
+                  src="/assets/busan.png"
+                  className="w-[14px] h-[14px] mr-1 inline-block"
+                  alt=""
+                />
+
+                <span
+                  style={{
+                    fontFamily: 'koverwatch',
+                    lineHeight: 1,
+                    marginBottom: -2,
+                  }}
+                >
+                  Busan Card Pack #1
+                </span>
+              </span>
+
+              {/* original price */}
+              <span className="flex items-center gap-1.5 mt-3">
+                <span className="flex items-center gap-0.5 text-sky-500">
+                  <BadgePercent className="mb-[3px]" size={17} />
+                  <span
+                    className="font-bold leading-none"
+                    style={{ fontFamily: 'koverwatch' }}
+                  >
+                    20%
+                  </span>
+                </span>
+
+                <span className="flex items-center">
+                  <img
+                    src="/assets/coin.png"
+                    className="inline-block w-[32px] h-[32px] grayscale-[100%] mb-[4px]"
+                    alt=""
+                  />
+                  <span
+                    className="text-2xl leading-none line-through text-slate-400"
+                    style={{ fontFamily: 'koverwatch' }}
+                  >
+                    {originalPrice.toLocaleString()}
+                  </span>
+                </span>
+              </span>
+
+              {/* current price */}
+              <span className="flex items-center">
+                <img
+                  src="/assets/coin.png"
+                  className="inline-block w-[40px] h-[40px] mb-[5px]"
+                  alt=""
+                />
+                <span
+                  className="text-3xl font-bold leading-none text-white"
+                  style={{ fontFamily: 'koverwatch' }}
+                >
+                  200,000
+                </span>
+              </span>
+            </div>
+          </div>
+
+          <div className="flex justify-center w-full gap-2 mt-2">
+            <Link href="/cards/open">
+              <Button>Buy</Button>
+            </Link>
+          </div>
+        </div>
       </div>
 
       <h2
