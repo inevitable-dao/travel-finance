@@ -14,7 +14,9 @@ const HomePage: NextPage = () => {
     <div className="flex flex-col items-center">
       {/* 카드팩 에셋, 정가, 할인가, 할인률, 구매하기 버튼 */}
 
-      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0"></div>
+      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0 rounded-md overflow-hidden">
+        <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
+      </div>
 
       <div className="flex w-full">
         <div className="flex flex-col items-center flex-1 mt-4">
@@ -95,7 +97,7 @@ const HomePage: NextPage = () => {
         <br />
         Journey through Busan
       </h2>
-      <ul className="flex flex-col w-full gap-1 mt-6">
+      <ul className="flex flex-col w-full gap-0.5 mt-6">
         <ArticleItem
           title="부산 남구 여행 | 부산을 구석구석 여행하는 방법! 해파랑길 코스를 따라 오륙도~이기대~용호별빛공원 원데이 코스"
           description="여름 하면 생각나는 도시는 바로 부산이죠?🌊 산과 바다를 함께 느낄 수 있는 부산의 매력적인 여행 코스..."

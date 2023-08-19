@@ -11,7 +11,7 @@ export const Button: React.FC<ButtonProps> = ({
   return (
     <button
       className={cn(
-        'px-12 py-2 text-xl font-bold transition-all shadow-2xl',
+        'px-12 pt-2 pb-1.5 text-xl font-bold transition-all shadow-2xl',
         variant === 'primary' &&
           'bg-[#F83E90] hover:bg-[#ff3084] shadow-pink-600/40 hover:text-zinc-950 hover:shadow-pink-600/65',
         variant === 'secondary' &&

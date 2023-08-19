@@ -7,3 +7,8 @@
   font-display: swap;
   src: url('/fonts/koverwatch.ttf') format('truetype-variations');
 }
+
+::selection {
+  background-color: rgba(254, 72, 154, 0.65);
+  color: rgba(255, 255, 255, 0.65);
+}
