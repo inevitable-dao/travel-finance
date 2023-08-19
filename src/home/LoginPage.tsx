@@ -18,13 +18,17 @@ const LoginPage: NextPage = () => {
   const [email, setEmail] = useState<string>('');
   const [password, setPassword] = useState<string>('');
   const login = useCallback(async () => {
-    const res = await axios.post<CommonResponese<{ token: string }>>(
-      'https://stevejkang.jp.ngrok.io/users/sign-in',
-      { username: email, password: password },
-    );
+    try {
+      const res = await axios.post<CommonResponese<{ token: string }>>(
+        'https://stevejkang.jp.ngrok.io/users/sign-in',
+        { username: email, password: password },
+      );
 
-    localStorage.setItem('access_token', res.data.result.token);
-    console.log({ res });
+      localStorage.setItem('access_token', res.data.result.token);
+      console.log({ res });
+    } catch (e) {
+      console.error(e);
+    }
   }, [email, password]);
 
   const submit = () => {
@@ -38,7 +42,7 @@ const LoginPage: NextPage = () => {
         <label>
           Username
           <input
-            className="border-white border-2"
+            className="border-2 border-white"
             type="email"
             onChange={(e) => setEmail(e.target.value)}
           />
@@ -47,7 +51,7 @@ const LoginPage: NextPage = () => {
         <label>
           Password
           <input
-            className="border-white border-2"
+            className="border-2 border-white"
             type="password"
             onChange={(e) => setPassword(e.target.value)}
           />

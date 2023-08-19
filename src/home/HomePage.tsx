@@ -1,16 +1,20 @@
+import styled from '@emotion/styled';
 import axios from 'axios';
+import { AnimatePresence, motion } from 'framer-motion';
 import { BadgePercent, Umbrella } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
+import colors from 'tailwindcss/colors';
 
 import { ArticleItem } from '@/components/ArticleItem';
 import { BusanBadge } from '@/components/BusanBadge';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
 import { PageTitle } from '@/components/PageTitle';
+import { cn } from '@/lib/utils';
 
 type CommonResponse<T> = {
   statusCode: number;
@@ -36,18 +40,80 @@ type CardItem = {
   rank: number;
 };
 
+type CardPackItemType = '1to4' | 'from5';
+type CardPackItemProps = {
+  type: CardPackItemType;
+  badge: string;
+  active: boolean;
+  onClick?: () => void;
+};
+
+const CardPackItem: React.FC<CardPackItemProps> = ({
+  active,
+  badge,
+  onClick,
+}) => {
+  return (
+    <div
+      className={cn(
+        'flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square items-center justify-center p-[1px] overflow-hidden cursor-pointer z-0',
+      )}
+      onClick={onClick}
+    >
+      <motion.div
+        className="absolute w-[50vw] h-[50vw] sm:w-[256px] sm:h-[256px] sm:top-[-64px] sm:bottom-[-64px] sm:left-[-64px] sm:right-[-64px] -z-10 animate-spin"
+        style={{
+          animationDuration: '3s',
+        }}
+        variants={{
+          active: {
+            background: `linear-gradient(180deg, #70f6ff 0%, #f83e90 100%)`,
+          },
+          disabled: {
+            background: `linear-gradient(
+              180deg,
+              ${colors.zinc[700]} 0%,
+              ${colors.zinc[800]} 100%
+            )`,
+          },
+        }}
+        transition={{ ease: 'easeOut', duration: 0.16 }}
+        animate={active ? 'active' : 'disabled'}
+      />
+      <img
+        src="/assets/card-pack.png"
+        className="w-[64px] h-[64px] sm:w-full sm:h-full rounded-[7px]"
+        alt=""
+      />
+      <span
+        className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
+        style={{
+          background: `linear-gradient(180deg, #70F6FF 0%, #F83E90 100%)`,
+          fontFamily: 'koverwatch',
+        }}
+      >
+        <span>{badge}</span>
+      </span>
+    </div>
+  );
+};
+
 const HomePage: NextPage = () => {
   const [cardPackage, setCardPackage] = useState<CardPackage>();
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get<
-        CommonResponse<{ availableCardPackage: CardPackage }>
-      >('https://stevejkang.jp.ngrok.io/card-packages');
+      try {
+        const res = await axios.get<
+          CommonResponse<{ availableCardPackage: CardPackage }>
+        >('https://stevejkang.jp.ngrok.io/card-packages');
 
-      console.log(res);
+        console.log(res);
 
-      setCardPackage(res.data.result.availableCardPackage);
+        setCardPackage(res.data.result.availableCardPackage);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     fetch();
@@ -56,20 +122,26 @@ const HomePage: NextPage = () => {
   const [cards, setCards] = useState<CardItem[]>([]);
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
-        'https://stevejkang.jp.ngrok.io/users/me/cards',
-        {
-          headers: {
-            'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+      try {
+        const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
+          'https://stevejkang.jp.ngrok.io/users/me/cards',
+          {
+            headers: {
+              'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+            },
           },
-        },
-      );
+        );
 
-      setCards(res.data.result.cards);
+        setCards(res.data.result.cards);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     fetch();
   }, []);
+
+  const [cardPackType, setCardPackType] = useState<CardPackItemType>('1to4');
 
   return (
     <div className="flex flex-col items-center">
@@ -78,38 +150,18 @@ const HomePage: NextPage = () => {
 
       <div className="flex flex-col-reverse w-full sm:flex-row">
         <div className="w-full mb-4 sm:mb-0 sm:w-[156px] mt-8 sm:mt-0 justify-center items-center flex flex-row sm:flex-col gap-2">
-          <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
-            <img
-              src="/assets/card-pack.png"
-              className="w-[64px] h-[64px] sm:w-full sm:h-full"
-              alt=""
-            />
-            <span
-              className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
-              style={{
-                background: `linear-gradient(180deg, #70F6FF 0%, #F83E90 100%)`,
-                fontFamily: 'koverwatch',
-              }}
-            >
-              <span>1 to 4</span>
-            </span>
-          </div>
-          <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
-            <img
-              src="/assets/card-pack.png"
-              className="w-[64px] h-[64px] sm:w-full sm:h-full"
-              alt=""
-            />
-            <span
-              className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
-              style={{
-                background: `linear-gradient(180deg, #70F6FF 0%, #F83E90 100%)`,
-                fontFamily: 'koverwatch',
-              }}
-            >
-              <span>From 5</span>
-            </span>
-          </div>
+          <CardPackItem
+            type="1to4"
+            active={cardPackType === '1to4'}
+            badge="1 to 4"
+            onClick={() => setCardPackType('1to4')}
+          />
+          <CardPackItem
+            type="from5"
+            active={cardPackType === 'from5'}
+            badge="From 5"
+            onClick={() => setCardPackType('from5')}
+          />
         </div>
 
         <div className="flex flex-col items-center flex-1">
