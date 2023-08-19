@@ -44,15 +44,17 @@ const InventoryPage: NextPage = () => {
         ) : (
           cards.map((card) => (
             // eslint-disable-next-line react/jsx-key
-            <Link href={`/inventory/${card.id}`}>
-              <CardItem
-                card={''}
-                name={card.name}
-                type={card.type}
-                address={card.address}
-                rank={card.rank}
-              />
-            </Link>
+            <div className="my-2">
+              <Link href={`/inventory/${card.id}`}>
+                <CardItem
+                  card={''}
+                  name={card.name}
+                  type={card.type}
+                  address={card.address}
+                  rank={card.rank}
+                />
+              </Link>
+            </div>
           ))
         )}
       </div>
