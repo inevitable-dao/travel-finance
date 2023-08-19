@@ -1,11 +1,11 @@
 import axios from 'axios';
-import { motion } from 'framer-motion';
+import { AnimatePresence, motion } from 'framer-motion';
 import { BadgePercent, Umbrella } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import colors from 'tailwindcss/colors';
 
 import { ArticleItem } from '@/components/ArticleItem';
@@ -39,9 +39,9 @@ type CardItem = {
   rank: number;
 };
 
-type CardPackItemType = '1to4' | 'from5';
+type CardPackageType = '1to4' | 'from5';
 type CardPackItemProps = {
-  type: CardPackItemType;
+  type: CardPackageType;
   badge: string;
   active: boolean;
   onClick?: () => void;
@@ -85,13 +85,26 @@ const CardPackItem: React.FC<CardPackItemProps> = ({
         alt=""
       />
       <span
-        className="absolute flex gap-1 p-1 pb-[3px] pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
+        className="absolute flex gap-1 p-1 pb-[3px] pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950 overflow-hidden z-0"
         style={{
           background: `linear-gradient(180deg, #70F6FF 0%, #F83E90 100%)`,
           fontFamily: 'koverwatch',
         }}
       >
-        <span>{badge}</span>
+        <AnimatePresence>
+          {!active && (
+            <motion.div
+              className="absolute top-0 bottom-0 left-0 right-0"
+              style={{
+                background: `linear-gradient(180deg, ${colors.zinc[400]} 0%, ${colors.zinc[500]} 100%)`,
+              }}
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+            />
+          )}
+        </AnimatePresence>
+        <span className="z-10">{badge}</span>
       </span>
     </div>
   );
@@ -140,7 +153,21 @@ const HomePage: NextPage = () => {
     fetch();
   }, []);
 
-  const [cardPackType, setCardPackType] = useState<CardPackItemType>('1to4');
+  const [cardPackageType, setCardPackageType] =
+    useState<CardPackageType>('1to4');
+
+  const price = useMemo(() => {
+    if (cardPackageType === '1to4') {
+      return cardPackage?.price || 200_000;
+    }
+    // not implemented
+    return 230_000;
+  }, [cardPackageType, cardPackage?.price]);
+
+  const originalPrice = useMemo(() => {
+    // original price = 120% of the current price
+    return price * 1.2;
+  }, [price]);
 
   return (
     <div className="flex flex-col items-center">
@@ -151,15 +178,15 @@ const HomePage: NextPage = () => {
         <div className="w-full mb-4 sm:mb-0 sm:w-[156px] mt-8 sm:mt-0 justify-center items-center flex flex-row sm:flex-col gap-2">
           <CardPackItem
             type="1to4"
-            active={cardPackType === '1to4'}
+            active={cardPackageType === '1to4'}
             badge="1 to 4"
-            onClick={() => setCardPackType('1to4')}
+            onClick={() => setCardPackageType('1to4')}
           />
           <CardPackItem
             type="from5"
-            active={cardPackType === 'from5'}
+            active={cardPackageType === 'from5'}
             badge="From 5"
-            onClick={() => setCardPackType('from5')}
+            onClick={() => setCardPackageType('from5')}
           />
         </div>
 
@@ -217,7 +244,7 @@ const HomePage: NextPage = () => {
                 className="text-2xl leading-none line-through text-slate-400"
                 style={{ fontFamily: 'koverwatch' }}
               >
-                {cardPackage?.originalPrice.toLocaleString()}
+                {originalPrice.toLocaleString()}
               </span>
             </span>
           </span>
@@ -233,7 +260,7 @@ const HomePage: NextPage = () => {
               className="text-3xl font-bold leading-none text-white"
               style={{ fontFamily: 'koverwatch' }}
             >
-              200,000
+              {price.toLocaleString()}
             </span>
           </span>
         </div>
