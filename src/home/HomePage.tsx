@@ -1,6 +1,5 @@
-import styled from '@emotion/styled';
 import axios from 'axios';
-import { AnimatePresence, motion } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { BadgePercent, Umbrella } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
@@ -61,7 +60,7 @@ const CardPackItem: React.FC<CardPackItemProps> = ({
       onClick={onClick}
     >
       <motion.div
-        className="absolute w-[50vw] h-[50vw] sm:w-[256px] sm:h-[256px] sm:top-[-64px] sm:bottom-[-64px] sm:left-[-64px] sm:right-[-64px] -z-10 animate-spin"
+        className="absolute w-[50vw] h-[50vw] sm:p-[1px] sm:w-[256px] sm:h-[256px] sm:top-[-64px] sm:bottom-[-64px] sm:left-[-64px] sm:right-[-64px] -z-10 animate-spin"
         style={{
           animationDuration: '3s',
         }}
@@ -82,11 +81,11 @@ const CardPackItem: React.FC<CardPackItemProps> = ({
       />
       <img
         src="/assets/card-pack.png"
-        className="w-[64px] h-[64px] sm:w-full sm:h-full rounded-[7px]"
+        className="w-[calc(100%_-_2px)] h-[62px] object-contain bg-black sm:w-full sm:h-full rounded-[7px]"
         alt=""
       />
       <span
-        className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
+        className="absolute flex gap-1 p-1 pb-[3px] pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
         style={{
           background: `linear-gradient(180deg, #70F6FF 0%, #F83E90 100%)`,
           fontFamily: 'koverwatch',
