@@ -53,17 +53,21 @@ const CardOpenPage: NextPage = () => {
       return;
     }
     const sendRequest = async () => {
-      const res = await axios.post<CommonResponse<{ cards: CardItem[] }>>(
-        'https://stevejkang.jp.ngrok.io/card-packages/1',
-        undefined,
-        {
-          headers: {
-            'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+      try {
+        const res = await axios.post<CommonResponse<{ cards: CardItem[] }>>(
+          'https://stevejkang.jp.ngrok.io/card-packages/1',
+          undefined,
+          {
+            headers: {
+              'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+            },
           },
-        },
-      );
+        );
 
-      setCards(res.data.result.cards);
+        setCards(res.data.result.cards);
+      } catch (e) {
+        console.error(e);
+      }
     };
 
     sendRequest();
