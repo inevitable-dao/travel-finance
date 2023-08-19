@@ -5,6 +5,7 @@ import React from 'react';
 import colors from 'tailwindcss/colors';
 
 import { BusanBadge } from '@/components/BusanBadge';
+import { Button } from '@/components/Button';
 import { JourneyItem } from '@/components/JourneyItem';
 import { PageTitle } from '@/components/PageTitle';
 import { Alert, AlertDescription, AlertTitle } from '@/components/ui/alert';
@@ -60,6 +61,12 @@ const RecentJourneysPage: NextPage = () => {
         <JourneyItem />
         <JourneyItem />
         <JourneyItem />
+      </div>
+
+      <div className="fixed bottom-[68px] p-4 pb-2 bg-black/40 backdrop-blur-sm left-0 right-0 max-w-2xl mx-auto">
+        <Link href="/journeys/new" className="w-full mt-4">
+          <Button className="w-full">New</Button>
+        </Link>
       </div>
     </div>
   );
