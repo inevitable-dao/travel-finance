@@ -1,16 +1,22 @@
-import { Umbrella } from 'lucide-react';
+import { BadgePercent, Umbrella } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { ArticleItem } from '@/components/ArticleItem';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
 import { PageTitle } from '@/components/PageTitle';
 
+const currentPrice = 200_000;
 const HomePage: NextPage = () => {
+  const originalPrice = useMemo(() => {
+    // original price = 120% of the current price
+    return currentPrice * 1.2;
+  }, []);
+
   return (
     <div className="flex flex-col items-center">
       <PageTitle>Home</PageTitle>
@@ -47,7 +53,10 @@ const HomePage: NextPage = () => {
 
           {/* original price */}
           <span className="flex items-center gap-1.5 mt-3">
-            <span className="font-bold text-sky-500">20%</span>
+            <span className="flex items-center gap-0.5 text-sky-500">
+              <BadgePercent size={17} />
+              <span className="font-bold">20%</span>
+            </span>
 
             <span className="flex items-center">
               <img
@@ -56,7 +65,7 @@ const HomePage: NextPage = () => {
                 alt=""
               />
               <span className="text-2xl line-through text-slate-400">
-                500,000
+                {originalPrice.toLocaleString()}
               </span>
             </span>
           </span>
