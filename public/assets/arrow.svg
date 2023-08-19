@@ -19,15 +19,15 @@
       <stop offset="1" stop-color="#3A3940" />
     </linearGradient>
     <linearGradient id="paint3_linear_3_78" x1="96" y1="0" x2="96" y2="8" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F83E90" />
+      <stop stop-color="#FF4999" />
       <stop offset="1" stop-color="#70F6FF" />
     </linearGradient>
     <linearGradient id="paint4_linear_3_78" x1="142" y1="0" x2="142" y2="8" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F83E90" />
+      <stop stop-color="#FF4999" />
       <stop offset="1" stop-color="#70F6FF" />
     </linearGradient>
     <linearGradient id="paint5_linear_3_78" x1="188" y1="0" x2="188" y2="8" gradientUnits="userSpaceOnUse">
-      <stop stop-color="#F83E90" />
+      <stop stop-color="#FF4999" />
       <stop offset="1" stop-color="#70F6FF" />
     </linearGradient>
   </defs>
