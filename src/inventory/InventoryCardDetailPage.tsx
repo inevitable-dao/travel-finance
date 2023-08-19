@@ -1,12 +1,41 @@
 import { ChevronsUp } from 'lucide-react';
 import { NextPage } from 'next';
 import Link from 'next/link';
-import React from 'react';
+import { useRouter } from 'next/router';
+import React, { useEffect, useState } from 'react';
 
 import { Button } from '@/components/Button';
+import { CardItem } from '@/components/CardItem';
 import { PageBack } from '@/components/PageBack';
 
+import { useInventory } from './hooks/useInventory';
+
+type CommonResponse<T> = {
+  statusCode: number;
+  timeStamp: string;
+  path: string;
+  result: T;
+};
+
+type CardItem = {
+  id: string;
+  type: string;
+  name: string;
+  description: string;
+  address: string;
+  estimatedHours: number;
+  rank: number;
+};
+
 const InventoryCardDetailPage: NextPage = () => {
+  const router = useRouter();
+  const { cards } = useInventory();
+
+  const [card, setCard] = useState<CardItem>();
+  useEffect(() => {
+    setCard(cards.filter((card) => card.id == router.query.cardId)[0]);
+  }, [cards, router.query.cardId]);
+
   return (
     <div className="flex flex-col items-center">
       <PageBack />
@@ -19,14 +48,11 @@ const InventoryCardDetailPage: NextPage = () => {
             className="text-3xl font-medium text-white"
             style={{ fontFamily: 'koverwatch' }}
           >
-            해운대 해수욕장 | Haeundae Beach
+            {card?.name}
           </span>
-          <span className="mt-2 text-md text-slate-400">
-            부산광역시 해운대구
-          </span>
+          <span className="mt-2 text-md text-slate-400">{card?.address}</span>
           <p className="mt-2 leading-tight text-md text-slate-500">
-            부산광역시 해운대구에 있는 해수욕장. 광안대교와 더불어 외지인들에게
-            가장 유명한 부산광역시의 양대 랜드마크이다.
+            {card?.description}
           </p>
 
           <div className="flex justify-center gap-2 mt-4">
