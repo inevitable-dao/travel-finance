@@ -12,6 +12,7 @@ import { ArticleItem } from '@/components/ArticleItem';
 import { BusanBadge } from '@/components/BusanBadge';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
+import { LoginRequired } from '@/components/LoginRequired';
 import { PageTitle } from '@/components/PageTitle';
 import { cn } from '@/lib/utils';
 
@@ -132,8 +133,14 @@ const HomePage: NextPage = () => {
   }, []);
 
   const [cards, setCards] = useState<CardItem[]>([]);
+
+  // true if initial call is made (first auth call)
+  const [authResolved, setAuthResolved] = useState<boolean>(false);
+
+  const [hasAuthError, setHasAuthError] = useState<boolean>(false);
   useEffect(() => {
     const fetch = async () => {
+      setHasAuthError(false);
       try {
         const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
           'https://stevejkang.jp.ngrok.io/users/me/cards',
@@ -147,6 +154,9 @@ const HomePage: NextPage = () => {
         setCards(res.data.result.cards);
       } catch (e) {
         console.error(e);
+        setHasAuthError(true);
+      } finally {
+        setAuthResolved(true);
       }
     };
 
@@ -272,36 +282,44 @@ const HomePage: NextPage = () => {
         </Link>
       </div>
 
-      <h2
-        className="w-full mt-12 text-4xl text-white"
-        style={{ fontFamily: 'koverwatch' }}
-      >
-        DROPPED CARDS
-      </h2>
-      <div className="flex flex-col w-full gap-2 mt-2">
-        {cards.map((card, index) =>
-          // eslint-disable-next-line react/jsx-key
-          index > 2 ? (
-            <></>
-          ) : (
-            <CardItem
-              card={''}
-              name={card.name}
-              type={card.type}
-              address={card.address}
-              rank={card.rank}
-            />
-          ),
-        )}
-        <div className="flex justify-center w-full mt-2">
-          <button
-            className="text-[#FF4999] text-lg text-center"
+      {authResolved && (
+        <>
+          <h2
+            className="w-full mt-12 text-4xl text-white"
             style={{ fontFamily: 'koverwatch' }}
           >
-            SHOW ALL
-          </button>
-        </div>
-      </div>
+            DROPPED CARDS
+          </h2>
+          <div className="flex flex-col w-full gap-2 mt-2">
+            {!hasAuthError &&
+              cards.map((card, index) =>
+                // eslint-disable-next-line react/jsx-key
+                index > 2 ? (
+                  <></>
+                ) : (
+                  <CardItem
+                    card={''}
+                    name={card.name}
+                    type={card.type}
+                    address={card.address}
+                    rank={card.rank}
+                  />
+                ),
+              )}
+            {!hasAuthError && (
+              <div className="flex justify-center w-full mt-2">
+                <button
+                  className="text-[#FF4999] text-lg text-center"
+                  style={{ fontFamily: 'koverwatch' }}
+                >
+                  SHOW ALL
+                </button>
+              </div>
+            )}
+            {hasAuthError && <LoginRequired />}
+          </div>
+        </>
+      )}
 
       <h2
         className="w-full mt-20 text-4xl text-center text-white"
