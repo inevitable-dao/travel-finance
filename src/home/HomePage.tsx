@@ -1,10 +1,10 @@
 import axios from 'axios';
-import { BadgePercent, Umbrella, User2 } from 'lucide-react';
+import { BadgePercent, Umbrella } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useEffect, useMemo, useState } from 'react';
+import React, { useEffect, useState } from 'react';
 
 import { ArticleItem } from '@/components/ArticleItem';
 import { BusanBadge } from '@/components/BusanBadge';
@@ -12,7 +12,7 @@ import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
 import { PageTitle } from '@/components/PageTitle';
 
-type CommonResponese<T> = {
+type CommonResponse<T> = {
   statusCode: number;
   timeStamp: string;
   path: string;
@@ -36,14 +36,13 @@ type CardItem = {
   rank: number;
 };
 
-const currentPrice = 200_000;
 const HomePage: NextPage = () => {
   const [cardPackage, setCardPackage] = useState<CardPackage>();
 
   useEffect(() => {
     const fetch = async () => {
       const res = await axios.get<
-        CommonResponese<{ availableCardPackage: CardPackage }>
+        CommonResponse<{ availableCardPackage: CardPackage }>
       >('https://stevejkang.jp.ngrok.io/card-packages');
 
       console.log(res);
@@ -57,7 +56,7 @@ const HomePage: NextPage = () => {
   const [cards, setCards] = useState<CardItem[]>([]);
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get<CommonResponese<{ cards: CardItem[] }>>(
+      const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
         'https://stevejkang.jp.ngrok.io/users/me/cards',
         {
           headers: {
