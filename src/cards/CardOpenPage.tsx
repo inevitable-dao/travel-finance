@@ -2,9 +2,11 @@ import axios from 'axios';
 import { NextPage } from 'next';
 import Link from 'next/link';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
+import { toast } from 'react-toastify';
 
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
+import { LoginRequired } from '@/components/LoginRequired';
 import { PageTitle } from '@/components/PageTitle';
 import { cn } from '@/lib/utils';
 
@@ -47,6 +49,24 @@ const CardOpenPage: NextPage = () => {
 
   const [isVideoStarted, setVideoStarted] = useState<boolean>(false);
 
+  const [status, setStatus] = useState<boolean>(true);
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        await axios.get('https://stevejkang.jp.ngrok.io/users/me/cards', {
+          headers: {
+            'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+          },
+        });
+      } catch (error: any) {
+        setStatus(false);
+        toast.error(error);
+      }
+    };
+
+    fetch();
+  }, []);
+
   const [cards, setCards] = useState<CardItem[]>([]);
   const handleCardPackOpen = useCallback(() => {
     if (!isVideoLoadComplete) {
@@ -56,7 +76,6 @@ const CardOpenPage: NextPage = () => {
       try {
         const res = await axios.post<CommonResponse<{ cards: CardItem[] }>>(
           'https://stevejkang.jp.ngrok.io/card-packages/1',
-          undefined,
           {
             headers: {
               'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
@@ -65,8 +84,10 @@ const CardOpenPage: NextPage = () => {
         );
 
         setCards(res.data.result.cards);
-      } catch (e) {
-        console.error(e);
+        setStatus(true);
+      } catch (e: any) {
+        toast.error(e);
+        setStatus(false);
       }
     };
 
@@ -83,78 +104,84 @@ const CardOpenPage: NextPage = () => {
     <div className="flex flex-col items-center mt-[64px]">
       <PageTitle subtitle="Busan Card Pack #1">Open</PageTitle>
 
-      {stage === Stage.COVER && (
-        <div className="fixed top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center w-full h-full">
-          <div
-            className={cn(
-              'h-[calc(100vh_-_100px)] overflow-hidden flex justify-center items-end',
-              isVideoLoadComplete && 'cursor-pointer',
-            )}
-            onClick={handleCardPackOpen}
-          >
-            <video
-              ref={videoRef}
-              src="/assets/pack-open.webm"
-              className="w-full max-w-[400px]"
-              controls={false}
-              muted
-              // autoPlay
-              playsInline
-              onLoadedData={handleVideoLoadingComplete}
-              onEnded={handleVideoEnd}
-            />
-          </div>
+      {status === false ? (
+        <LoginRequired />
+      ) : (
+        <>
+          {stage === Stage.COVER && (
+            <div className="fixed top-0 bottom-0 left-0 right-0 flex flex-col items-center justify-center w-full h-full">
+              <div
+                className={cn(
+                  'h-[calc(100vh_-_100px)] overflow-hidden flex justify-center items-end',
+                  isVideoLoadComplete && 'cursor-pointer',
+                )}
+                onClick={handleCardPackOpen}
+              >
+                <video
+                  ref={videoRef}
+                  src="/assets/pack-open.webm"
+                  className="w-full max-w-[400px]"
+                  controls={false}
+                  muted
+                  // autoPlay
+                  playsInline
+                  onLoadedData={handleVideoLoadingComplete}
+                  onEnded={handleVideoEnd}
+                />
+              </div>
 
-          {!isVideoStarted && (
-            <Button
-              disabled={!isVideoLoadComplete}
-              style={{
-                opacity: isVideoLoadComplete ? 1 : 0.4,
-              }}
-              onClick={handleCardPackOpen}
-            >
-              Touch to Open
-            </Button>
-          )}
-        </div>
-      )}
-
-      {stage === Stage.RESULT && (
-        <div>
-          <h2
-            className="text-3xl font-medium text-white"
-            style={{ fontFamily: 'koverwatch' }}
-          >
-            Results
-          </h2>
-          {cards.map((card) => (
-            // eslint-disable-next-line react/jsx-key
-            <div className="my-2">
-              <CardItem
-                card={''}
-                name={card.name}
-                type={card.type}
-                address={card.address}
-                rank={card.rank}
-              />
+              {!isVideoStarted && (
+                <Button
+                  disabled={!isVideoLoadComplete}
+                  style={{
+                    opacity: isVideoLoadComplete ? 1 : 0.4,
+                  }}
+                  onClick={handleCardPackOpen}
+                >
+                  Touch to Open
+                </Button>
+              )}
             </div>
-          ))}
-          <div className="flex justify-center w-full gap-2 mt-4">
-            <Link href="/inventory">
-              <Button>Inventory</Button>
-            </Link>
+          )}
 
-            <Button
-              variant="secondary"
-              onClick={() => {
-                setVideoStarted(false);
-                setStage(Stage.COVER);
-              }}
-            >
-              Open Another
-            </Button>
-          </div>
-        </div>
+          {stage === Stage.RESULT && (
+            <div>
+              <h2
+                className="text-3xl font-medium text-white"
+                style={{ fontFamily: 'koverwatch' }}
+              >
+                Results
+              </h2>
+              {cards.map((card) => (
+                // eslint-disable-next-line react/jsx-key
+                <div className="my-2">
+                  <CardItem
+                    card={''}
+                    name={card.name}
+                    type={card.type}
+                    address={card.address}
+                    rank={card.rank}
+                  />
+                </div>
+              ))}
+              <div className="flex justify-center w-full gap-2 mt-4">
+                <Link href="/inventory">
+                  <Button>Inventory</Button>
+                </Link>
+
+                <Button
+                  variant="secondary"
+                  onClick={() => {
+                    setVideoStarted(false);
+                    setStage(Stage.COVER);
+                  }}
+                >
+                  Open Another
+                </Button>
+              </div>
+            </div>
+          )}
+        </>
       )}
     </div>
   );
