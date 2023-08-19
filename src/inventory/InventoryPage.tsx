@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React, { useEffect, useState } from 'react';
 
 import { CardItem } from '@/components/CardItem';
+import { LoginRequired } from '@/components/LoginRequired';
 import { PageTitle } from '@/components/PageTitle';
 
 type CommonResponse<T> = {
@@ -24,21 +25,27 @@ type CardItem = {
 };
 
 const InventoryPage: NextPage = () => {
-  const hasItems = true;
-
   const [cards, setCards] = useState<CardItem[]>([]);
+  const [hasAuthError, setHasAuthError] = useState<boolean>(false);
+
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
-        'https://stevejkang.jp.ngrok.io/users/me/cards',
-        {
-          headers: {
-            'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+      setHasAuthError(false);
+      try {
+        const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
+          'https://stevejkang.jp.ngrok.io/users/me/cards',
+          {
+            headers: {
+              'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+            },
           },
-        },
-      );
+        );
 
-      setCards(res.data.result.cards);
+        setCards(res.data.result.cards);
+      } catch (e: any) {
+        console.error(e);
+        setHasAuthError(true);
+      }
     };
 
     fetch();
@@ -47,13 +54,7 @@ const InventoryPage: NextPage = () => {
   return (
     <div className="flex flex-col items-center mt-[64px]">
       <PageTitle description="All cards">
-        {hasItems ? (
-          <>
-            Inventory <span className="text-[#ff3084]">({cards.length})</span>
-          </>
-        ) : (
-          'Inventory'
-        )}
+        Inventory <span className="text-[#ff3084]">({cards.length})</span>
       </PageTitle>
 
       <div className="flex flex-col w-full">
@@ -69,6 +70,8 @@ const InventoryPage: NextPage = () => {
             />
           </Link>
         ))}
+
+        {hasAuthError && <LoginRequired />}
       </div>
     </div>
   );
