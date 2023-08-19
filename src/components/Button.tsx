@@ -21,6 +21,7 @@ export const Button: React.FC<ButtonProps> = ({
   price,
   children,
   onPointerCancel,
+  style,
   ...props
 }) => {
   return (
@@ -33,7 +34,7 @@ export const Button: React.FC<ButtonProps> = ({
           'bg-slate-100 hover:bg-slate-200 shadow-slate-300/40 hover:text-zinc-950 hover:shadow-slate-300/65',
         className,
       )}
-      style={{ fontFamily: 'koverwatch' }}
+      style={{ fontFamily: 'koverwatch', ...style }}
       {...props}
     >
       {children}
