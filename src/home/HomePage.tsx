@@ -1,8 +1,11 @@
+import { Umbrella } from 'lucide-react';
+
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
 import React from 'react';
 
+import { ArticleItem } from '@/components/ArticleItem';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
 
@@ -85,11 +88,36 @@ const HomePage: NextPage = () => {
       </div>
 
       <h2
-        className="w-full mt-12 text-4xl text-center text-white"
+        className="w-full mt-20 text-4xl text-center text-white"
         style={{ fontFamily: 'koverwatch' }}
       >
+        <Umbrella className="inline-block mb-3" size={36} />
+        <br />
         Journey through Busan
       </h2>
+      <ul className="flex flex-col w-full gap-1 mt-6">
+        <ArticleItem
+          title="부산 남구 여행 | 부산을 구석구석 여행하는 방법! 해파랑길 코스를 따라 오륙도~이기대~용호별빛공원 원데이 코스"
+          description="여름 하면 생각나는 도시는 바로 부산이죠?🌊 산과 바다를 함께 느낄 수 있는 부산의 매력적인 여행 코스..."
+          date="2023. 7. 7. 18:00"
+          image="/assets/blog-1.jpg"
+          url="https://blog.naver.com/busanto1115/223149045829"
+        />
+        <ArticleItem
+          title="[내셔널지오그래픽] 2023년 최고의 여행지 문화부분, 부산 선정!"
+          description={`세계적인 여행 전문 매거진, '내셔널지오그래픽'!! 내셔널지오그래픽 트래블러 "2023년 최...`}
+          date="2022. 11. 29. 18:07"
+          image="/assets/blog-2.jpg"
+          url="https://blog.naver.com/busanto1115/222941511802"
+        />
+        <ArticleItem
+          title="부산 가볼만한 축제 | 다시 여는 제9회 낙동강 구포나루 축제, 화명생태공원"
+          description="*본 콘텐츠는 Go Boogi 크리에이터 추도현님이 취재하신 사진을 바탕으로 작성되었습니다 :) 2019년 이후..."
+          date="2022. 10. 26. 17:30"
+          image="/assets/blog-3.jpg"
+          url="https://blog.naver.com/busanto1115/222911230543"
+        />
+      </ul>
     </div>
   );
 };
