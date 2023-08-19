@@ -21,8 +21,11 @@ const InventoryCardDetailPage: NextPage = () => {
 
       <div className="flex w-full">
         <div className="flex flex-col flex-1 mt-2">
-          <span className="text-base font-medium text-white">
-            해운대 해수욕장 海雲臺海水浴場 | Haeundae Beach
+          <span
+            className="text-2xl font-medium text-white"
+            style={{ fontFamily: 'koverwatch' }}
+          >
+            해운대 해수욕장 | Haeundae Beach
           </span>
           <span className="text-sm text-slate-400">부산광역시 해운대구</span>
           <p className="mt-2 text-sm text-slate-500">

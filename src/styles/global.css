@@ -1,3 +1,9 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+  font-family: 'koverwatch';
+  font-display: swap;
+  src: url('/fonts/koverwatch.ttf') format('truetype-variations');
+}

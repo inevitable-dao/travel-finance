@@ -4,6 +4,7 @@ import Link from 'next/link';
 import React from 'react';
 
 import { Button } from '@/components/Button';
+import { CardItem } from '@/components/CardItem';
 
 const HomePage: NextPage = () => {
   return (
@@ -25,7 +26,16 @@ const HomePage: NextPage = () => {
               className="w-[14px] h-[14px] mr-1 inline-block"
               alt=""
             />
-            Busan Card Pack #1
+
+            <span
+              style={{
+                fontFamily: 'koverwatch',
+                lineHeight: 1,
+                marginBottom: -2,
+              }}
+            >
+              Busan Card Pack #1
+            </span>
           </span>
 
           {/* original price */}
@@ -61,6 +71,25 @@ const HomePage: NextPage = () => {
           <Button>Buy</Button>
         </Link>
       </div>
+
+      <h2
+        className="w-full mt-12 text-4xl text-white"
+        style={{ fontFamily: 'koverwatch' }}
+      >
+        DROPPED CARDS
+      </h2>
+      <div className="flex flex-col w-full gap-2 mt-2">
+        <CardItem />
+        <CardItem />
+        <CardItem />
+      </div>
+
+      <h2
+        className="w-full mt-12 text-4xl text-center text-white"
+        style={{ fontFamily: 'koverwatch' }}
+      >
+        Journey through Busan
+      </h2>
     </div>
   );
 };
