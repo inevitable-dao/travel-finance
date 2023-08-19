@@ -84,10 +84,8 @@ const CardOpenPage: NextPage = () => {
         );
 
         setCards(res.data.result.cards);
-        setAuthStatus(true);
       } catch (e: any) {
         toast.error(e);
-        setAuthStatus(false);
       }
     };
 
