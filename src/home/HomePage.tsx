@@ -58,9 +58,13 @@ const HomePage: NextPage = () => {
       {/* 카드팩 에셋, 정가, 할인가, 할인률, 구매하기 버튼 */}
 
       <div className="flex flex-col-reverse w-full sm:flex-row">
-        <div className="w-full sm:w-[156px] mt-8 sm:mt-0 justify-center items-center flex flex-col gap-2">
+        <div className="w-full mb-4 sm:mb-0 sm:w-[156px] mt-8 sm:mt-0 justify-center items-center flex flex-row sm:flex-col gap-2">
           <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
-            <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
+            <img
+              src="/assets/card-pack.png"
+              className="w-[64px] h-[64px] sm:w-full sm:h-full"
+              alt=""
+            />
             <span
               className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
               style={{
@@ -72,7 +76,11 @@ const HomePage: NextPage = () => {
             </span>
           </div>
           <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
-            <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
+            <img
+              src="/assets/card-pack.png"
+              className="w-[64px] h-[64px] sm:w-full sm:h-full"
+              alt=""
+            />
             <span
               className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
               style={{
@@ -93,78 +101,78 @@ const HomePage: NextPage = () => {
               alt=""
             />
           </div>
-
-          <div className="relative w-full h-[1px] overflow-hidden border-t rounded-3xl border-slate-6">
-            <div
-              aria-hidden="true"
-              className="left-1/2 top-0 w-[300px] user-select-none center pointer-events-none absolute h-px max-w-full -translate-x-1/2 -translate-y-1/2"
-              style={{
-                background: `linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.0) 0%, rgba(143, 143, 143, 0.67) 50%, rgba(0, 0, 0, 0) 100%)`,
-              }}
-            ></div>
-            <div
-              aria-hidden="true"
-              className="-top-1 left-1/2 h-[200px] w-full max-w-[200px] md:max-w-[400px] user-select-none center pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
-              style={{
-                background: `conic-gradient(from 90deg at 50% 50%, #00000000 50%, #000 50%),radial-gradient(rgba(200,200,200,0.1) 0%, transparent 80%)`,
-              }}
-            ></div>
-          </div>
-
-          <div className="flex w-full">
-            <div className="flex flex-col items-center flex-1 mt-4">
-              <BusanBadge />
-
-              {/* original price */}
-              <span className="flex items-center gap-1.5 mt-3">
-                <span className="flex items-center gap-0.5 text-sky-500">
-                  <BadgePercent className="mb-[3px]" size={17} />
-                  <span
-                    className="font-bold leading-none"
-                    style={{ fontFamily: 'koverwatch' }}
-                  >
-                    20%
-                  </span>
-                </span>
-
-                <span className="flex items-center">
-                  <img
-                    src="/assets/coin.png"
-                    className="inline-block w-[32px] h-[32px] grayscale-[100%] mb-[4px]"
-                    alt=""
-                  />
-                  <span
-                    className="text-2xl leading-none line-through text-slate-400"
-                    style={{ fontFamily: 'koverwatch' }}
-                  >
-                    {cardPackage?.originalPrice.toLocaleString()}
-                  </span>
-                </span>
-              </span>
-
-              {/* current price */}
-              <span className="flex items-center">
-                <img
-                  src="/assets/coin.png"
-                  className="inline-block w-[40px] h-[40px] mb-[5px]"
-                  alt=""
-                />
-                <span
-                  className="text-3xl font-bold leading-none text-white"
-                  style={{ fontFamily: 'koverwatch' }}
-                >
-                  200,000
-                </span>
-              </span>
-            </div>
-          </div>
-
-          <div className="flex justify-center w-full gap-2 mt-2">
-            <Link href="/cards/open">
-              <Button>Buy</Button>
-            </Link>
-          </div>
         </div>
+      </div>
+
+      <div className="relative w-full h-[1px] overflow-hidden border-t rounded-3xl border-slate-6">
+        <div
+          aria-hidden="true"
+          className="left-1/2 top-0 w-[300px] user-select-none center pointer-events-none absolute h-px max-w-full -translate-x-1/2 -translate-y-1/2"
+          style={{
+            background: `linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.0) 0%, rgba(143, 143, 143, 0.67) 50%, rgba(0, 0, 0, 0) 100%)`,
+          }}
+        ></div>
+        <div
+          aria-hidden="true"
+          className="-top-1 left-1/2 h-[200px] w-full max-w-[200px] md:max-w-[400px] user-select-none center pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+          style={{
+            background: `conic-gradient(from 90deg at 50% 50%, #00000000 50%, #000 50%),radial-gradient(rgba(200,200,200,0.1) 0%, transparent 80%)`,
+          }}
+        ></div>
+      </div>
+
+      <div className="flex w-full">
+        <div className="flex flex-col items-center flex-1 mt-4">
+          <BusanBadge />
+
+          {/* original price */}
+          <span className="flex items-center gap-1.5 mt-3">
+            <span className="flex items-center gap-0.5 text-sky-500">
+              <BadgePercent className="mb-[3px]" size={17} />
+              <span
+                className="font-bold leading-none"
+                style={{ fontFamily: 'koverwatch' }}
+              >
+                20%
+              </span>
+            </span>
+
+            <span className="flex items-center">
+              <img
+                src="/assets/coin.png"
+                className="inline-block w-[32px] h-[32px] grayscale-[100%] mb-[4px]"
+                alt=""
+              />
+              <span
+                className="text-2xl leading-none line-through text-slate-400"
+                style={{ fontFamily: 'koverwatch' }}
+              >
+                {cardPackage?.originalPrice.toLocaleString()}
+              </span>
+            </span>
+          </span>
+
+          {/* current price */}
+          <span className="flex items-center">
+            <img
+              src="/assets/coin.png"
+              className="inline-block w-[40px] h-[40px] mb-[5px]"
+              alt=""
+            />
+            <span
+              className="text-3xl font-bold leading-none text-white"
+              style={{ fontFamily: 'koverwatch' }}
+            >
+              200,000
+            </span>
+          </span>
+        </div>
+      </div>
+
+      <div className="flex justify-center w-full gap-2 mt-2">
+        <Link href="/cards/open">
+          <Button>Buy</Button>
+        </Link>
       </div>
 
       <h2
