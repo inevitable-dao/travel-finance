@@ -315,7 +315,7 @@ const HomePage: NextPage = () => {
         </Link>
       </div>
 
-      <div className="flex-col hidden w-full p-2 mt-4 text-sm font-medium border border-solid border-sky-300 sm:flex">
+      <div className="flex flex-col w-full p-2 mt-4 text-sm font-medium border border-solid border-sky-300">
         <span
           className="text-base text-sky-300"
           style={{ fontFamily: 'koverwatch' }}
