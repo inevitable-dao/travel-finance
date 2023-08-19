@@ -9,6 +9,7 @@ export const GlobalStyle: React.FC = () => (
 
       html, body {
         background: ${colors.zinc[950]};
+        color: ${colors.zinc[50]};
       }
 
       * {
