@@ -5,7 +5,7 @@ export type CardItemProps = {
   name: string;
   type: string;
   address: string;
-  grade: string;
+  rank: number;
 };
 
 export const CardItem: React.FC<CardItemProps> = ({
@@ -13,7 +13,7 @@ export const CardItem: React.FC<CardItemProps> = ({
   name,
   type,
   address,
-  grade,
+  rank,
 }) => {
   return (
     <div className="flex w-full gap-2 p-1 overflow-hidden rounded-md bg-zinc-900">

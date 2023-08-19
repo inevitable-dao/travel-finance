@@ -16,9 +16,7 @@ type CommonResponese<T> = {
   statusCode: number;
   timeStamp: string;
   path: string;
-  result: {
-    availableCardPackage: T;
-  };
+  result: T;
 };
 
 type CardPackage = {
@@ -28,15 +26,25 @@ type CardPackage = {
   price: number;
 };
 
+type CardItem = {
+  id: string;
+  type: string;
+  name: string;
+  description: string;
+  address: string;
+  estimatedHours: number;
+  rank: number;
+};
+
 const currentPrice = 200_000;
 const HomePage: NextPage = () => {
   const [cardPackage, setCardPackage] = useState<CardPackage>();
 
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get<CommonResponese<CardPackage>>(
-        'https://stevejkang.jp.ngrok.io/card-packages',
-      );
+      const res = await axios.get<
+        CommonResponese<{ availableCardPackage: CardPackage }>
+      >('https://stevejkang.jp.ngrok.io/card-packages');
 
       console.log(res);
 
@@ -46,10 +54,22 @@ const HomePage: NextPage = () => {
     fetch();
   }, []);
 
+  const [cards, setCards] = useState<CardItem[]>([]);
   useEffect(() => {
     const fetch = async () => {
-      const res = await axios.get;
+      const res = await axios.get<CommonResponese<{ cards: CardItem[] }>>(
+        'https://stevejkang.jp.ngrok.io/users/me/cards',
+        {
+          headers: {
+            'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+          },
+        },
+      );
+
+      setCards(res.data.result.cards);
     };
+
+    fetch();
   }, []);
 
   return (
@@ -151,9 +171,20 @@ const HomePage: NextPage = () => {
         DROPPED CARDS
       </h2>
       <div className="flex flex-col w-full gap-2 mt-2">
-        <CardItem />
-        <CardItem />
-        <CardItem />
+        {cards.map((card, index) =>
+          // eslint-disable-next-line react/jsx-key
+          index > 2 ? (
+            <></>
+          ) : (
+            <CardItem
+              card={''}
+              name={card.name}
+              type={card.type}
+              address={card.address}
+              rank={card.rank}
+            />
+          ),
+        )}
         <div className="flex justify-center w-full mt-2">
           <button
             className="text-[#FF4999] text-lg text-center"
