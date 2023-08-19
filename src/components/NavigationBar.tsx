@@ -22,7 +22,7 @@ export const NavigationBar: React.FC = () => {
               }}
               alt=""
             />
-            <Points>3,200</Points>
+            <Points style={{ fontFamily: 'koverwatch' }}>3,200</Points>
           </div>
           <Name className="bg-[#363641] pl-2 pr-[16px] sm:pr-[16px] h-full w-fit flex items-center leading-none text-slate-300">
             @junhoyeo
@@ -49,7 +49,7 @@ const Container = styled.div`
 const Points = styled.span`
   color: #fff;
   text-shadow: 0px 2px 12px #980040;
-  font-size: 16px;
+  font-size: 18px;
   font-weight: 700;
 `;
 const Name = styled.span`

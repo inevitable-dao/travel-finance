@@ -11,7 +11,7 @@ const CardUpgradePage: NextPage = () => {
       <PageBack description="To Card Detail" />
 
       <div className="flex justify-center w-full gap-2 mt-2">
-        <Button className="flex gap-1 px-8 items-top">
+        <Button className="flex gap-1 px-8 items-top" price={500}>
           <ChevronsUp size={18} strokeWidth={3} className="mt-0.5 ml-[-4px]" />
           <span>Upgrade</span>
         </Button>

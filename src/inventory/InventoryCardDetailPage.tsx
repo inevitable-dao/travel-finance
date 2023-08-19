@@ -31,7 +31,7 @@ const InventoryCardDetailPage: NextPage = () => {
 
           <div className="flex justify-center gap-2 mt-4">
             <Link href="/cards/upgrade">
-              <Button className="flex gap-1 px-8 items-top">
+              <Button className="flex gap-1 px-8 items-top" price={500}>
                 <ChevronsUp
                   size={18}
                   strokeWidth={3}

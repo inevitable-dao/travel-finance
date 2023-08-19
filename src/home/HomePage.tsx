@@ -54,17 +54,25 @@ const HomePage: NextPage = () => {
           {/* original price */}
           <span className="flex items-center gap-1.5 mt-3">
             <span className="flex items-center gap-0.5 text-sky-500">
-              <BadgePercent size={17} />
-              <span className="font-bold">20%</span>
+              <BadgePercent className="mb-[3px]" size={17} />
+              <span
+                className="font-bold leading-none"
+                style={{ fontFamily: 'koverwatch' }}
+              >
+                20%
+              </span>
             </span>
 
             <span className="flex items-center">
               <img
                 src="/assets/coin.png"
-                className="inline-block w-[32px] h-[32px] grayscale-[100%]"
+                className="inline-block w-[32px] h-[32px] grayscale-[100%] mb-[4px]"
                 alt=""
               />
-              <span className="text-2xl line-through text-slate-400">
+              <span
+                className="text-2xl leading-none line-through text-slate-400"
+                style={{ fontFamily: 'koverwatch' }}
+              >
                 {originalPrice.toLocaleString()}
               </span>
             </span>
@@ -74,10 +82,15 @@ const HomePage: NextPage = () => {
           <span className="flex items-center">
             <img
               src="/assets/coin.png"
-              className="inline-block w-[40px] h-[40px]"
+              className="inline-block w-[40px] h-[40px] mb-[5px]"
               alt=""
             />
-            <span className="text-3xl font-bold text-white">200,000</span>
+            <span
+              className="text-3xl font-bold leading-none text-white"
+              style={{ fontFamily: 'koverwatch' }}
+            >
+              200,000
+            </span>
           </span>
         </div>
       </div>
