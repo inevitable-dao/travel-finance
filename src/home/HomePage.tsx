@@ -1,17 +1,25 @@
-import { Umbrella } from 'lucide-react';
+import { BadgePercent, Umbrella } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
-import React from 'react';
+import React, { useMemo } from 'react';
 
 import { ArticleItem } from '@/components/ArticleItem';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
+import { PageTitle } from '@/components/PageTitle';
 
+const currentPrice = 200_000;
 const HomePage: NextPage = () => {
+  const originalPrice = useMemo(() => {
+    // original price = 120% of the current price
+    return currentPrice * 1.2;
+  }, []);
+
   return (
     <div className="flex flex-col items-center">
+      <PageTitle>Home</PageTitle>
       {/* 카드팩 에셋, 정가, 할인가, 할인률, 구매하기 버튼 */}
 
       <div className="w-full max-w-[400px] bg-zinc-900 aspect-square relative z-0 rounded-md overflow-hidden">
@@ -45,7 +53,10 @@ const HomePage: NextPage = () => {
 
           {/* original price */}
           <span className="flex items-center gap-1.5 mt-3">
-            <span className="font-bold text-sky-500">20%</span>
+            <span className="flex items-center gap-0.5 text-sky-500">
+              <BadgePercent size={17} />
+              <span className="font-bold">20%</span>
+            </span>
 
             <span className="flex items-center">
               <img
@@ -54,7 +65,7 @@ const HomePage: NextPage = () => {
                 alt=""
               />
               <span className="text-2xl line-through text-slate-400">
-                500,000
+                {originalPrice.toLocaleString()}
               </span>
             </span>
           </span>
@@ -87,6 +98,14 @@ const HomePage: NextPage = () => {
         <CardItem />
         <CardItem />
         <CardItem />
+        <div className="flex justify-center w-full mt-2">
+          <button
+            className="text-[#FF4999] text-lg text-center"
+            style={{ fontFamily: 'koverwatch' }}
+          >
+            SHOW ALL
+          </button>
+        </div>
       </div>
 
       <h2
