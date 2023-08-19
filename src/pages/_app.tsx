@@ -1,3 +1,4 @@
+import { useAtom } from 'jotai';
 import { AppProps } from 'next/app';
 import { useRouter } from 'next/router';
 import React from 'react';
@@ -5,6 +6,7 @@ import React from 'react';
 import { BottomTabBar } from '@/components/BottomTabBar';
 import { MobileContainer } from '@/components/MobileContainer';
 import { NavigationBar } from '@/components/NavigationBar';
+import { bottomTabNavigatorShown } from '@/lib/atoms';
 import { GlobalStyle } from '@/styles/GlobalStyle';
 import '@/styles/global.css';
 
@@ -12,7 +14,7 @@ function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
 
   // hide bottom tab bar when current page is `/cards/open`.
-  const hideTabBar = router.pathname === '/cards/open';
+  const [tabBarShown] = useAtom(bottomTabNavigatorShown);
 
   return (
     <MobileContainer>
@@ -24,7 +26,7 @@ function MyApp({ Component, pageProps }: AppProps) {
 
       <div id="portal" />
 
-      {!hideTabBar && <BottomTabBar />}
+      {!tabBarShown && <BottomTabBar />}
     </MobileContainer>
   );
 }
