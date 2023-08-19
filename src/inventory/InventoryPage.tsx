@@ -8,6 +8,8 @@ import { CardsEmpty } from '@/components/CardsEmpty';
 import { LoginRequired } from '@/components/LoginRequired';
 import { PageTitle } from '@/components/PageTitle';
 
+import { useInventory } from './hooks/useInventory';
+
 type CommonResponse<T> = {
   statusCode: number;
   timeStamp: string;
@@ -26,31 +28,7 @@ type CardItem = {
 };
 
 const InventoryPage: NextPage = () => {
-  const [cards, setCards] = useState<CardItem[]>([]);
-  const [hasAuthError, setHasAuthError] = useState<boolean>(false);
-
-  useEffect(() => {
-    const fetch = async () => {
-      setHasAuthError(false);
-      try {
-        const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
-          'https://stevejkang.jp.ngrok.io/users/me/cards',
-          {
-            headers: {
-              'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
-            },
-          },
-        );
-
-        setCards(res.data.result.cards);
-      } catch (e: any) {
-        console.error(e);
-        setHasAuthError(true);
-      }
-    };
-
-    fetch();
-  }, []);
+  const { cards, hasAuthError } = useInventory();
 
   return (
     <div className="flex flex-col items-center mt-[64px]">
