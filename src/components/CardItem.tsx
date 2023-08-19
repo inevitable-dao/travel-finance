@@ -22,24 +22,26 @@ export const CardItem: React.FC<CardItemProps> = ({
       </div>
       <div className="flex flex-col w-full justify-evenly">
         <span
-          className="text-white text-2xl font-bold"
+          className="text-2xl font-bold text-white"
           style={{ fontFamily: 'koverwatch' }}
         >
           {name}
         </span>
         <div className="flex items-baseline">
           <span
-            className="w-fit text-l font-bold text-white mr-2"
+            className="mr-2 font-bold text-white w-fit text-l"
             style={{ fontFamily: 'koverwatch' }}
           >
             {type}
           </span>
-          <span className="w-full text-l font-bold text-gray-300 ">
+          <span className="w-full font-bold text-gray-300 text-l ">
             {address}
           </span>
         </div>
       </div>
-      <div className="w-[72px] h-[72px]">GRADE</div>
+      <div className="w-[72px] h-[72px] text-slate-100">
+        {['B', 'A', 'S'][rank]}
+      </div>
     </div>
   );
 };

@@ -133,35 +133,60 @@ const HomePage: NextPage = () => {
   }, []);
 
   const [cards, setCards] = useState<CardItem[]>([]);
-
-  // true if initial call is made (first auth call)
-  const [authResolved, setAuthResolved] = useState<boolean>(false);
-
-  const [hasAuthError, setHasAuthError] = useState<boolean>(false);
+  const [hasExpendedCards, setExpendedCards] = useState<boolean>(false);
   useEffect(() => {
     const fetch = async () => {
-      setHasAuthError(false);
-      try {
-        const res = await axios.get<CommonResponse<{ cards: CardItem[] }>>(
-          'https://stevejkang.jp.ngrok.io/users/me/cards',
-          {
-            headers: {
-              'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
-            },
-          },
-        );
+      const cards = (await import('@/constants/cards')).CARDS;
 
-        setCards(res.data.result.cards);
-      } catch (e) {
-        console.error(e);
-        setHasAuthError(true);
-      } finally {
-        setAuthResolved(true);
-      }
+      // sort cards by `rank` (high first) -> `type` (TRANSPORTs to the top) -> `name` (english first, numbers last)
+      cards.sort((a, b) => {
+        if (a.rank !== b.rank) {
+          return b.rank - a.rank;
+        }
+
+        if (a.type !== b.type) {
+          if (a.type === 'TRANSPORT') {
+            return -1;
+          }
+
+          if (b.type === 'TRANSPORT') {
+            return 1;
+          }
+
+          return a.type.localeCompare(b.type);
+        }
+
+        if (a.name.match(/^\d/)) {
+          return 1;
+        }
+
+        if (b.name.match(/^\d/)) {
+          return -1;
+        }
+
+        return a.name.localeCompare(b.name);
+      });
+
+      setCards(
+        cards.map((v) => ({
+          ...v,
+          id: v.id.toString(),
+          description: v.description || '',
+          estimatedHours: v.estimated_hours,
+        })),
+      );
     };
 
     fetch();
   }, []);
+
+  const renderedCards = useMemo(() => {
+    // if not expended, render only 3 cards
+    if (!hasExpendedCards) {
+      return cards.slice(0, 3);
+    }
+    return cards;
+  }, [cards, hasExpendedCards]);
 
   const [cardPackageType, setCardPackageType] =
     useState<CardPackageType>('1to4');
@@ -282,44 +307,44 @@ const HomePage: NextPage = () => {
         </Link>
       </div>
 
-      {authResolved && (
-        <>
-          <h2
-            className="w-full mt-12 text-4xl text-white"
+      <h2
+        className="w-full mt-12 text-4xl text-white"
+        style={{ fontFamily: 'koverwatch' }}
+      >
+        DROPPED CARDS
+      </h2>
+      <div className="flex flex-col w-full gap-2 mt-2">
+        {renderedCards.map((card, index) => (
+          <CardItem
+            card={''}
+            key={index}
+            name={card.name}
+            type={card.type}
+            address={card.address}
+            rank={card.rank}
+          />
+        ))}
+        <div className="flex justify-center w-full mt-2">
+          <button
+            className="text-[#FF4999] text-lg text-center"
             style={{ fontFamily: 'koverwatch' }}
+            onClick={() => setExpendedCards((v) => !v)}
           >
-            DROPPED CARDS
-          </h2>
-          <div className="flex flex-col w-full gap-2 mt-2">
-            {!hasAuthError &&
-              cards.map((card, index) =>
-                // eslint-disable-next-line react/jsx-key
-                index > 2 ? (
-                  <></>
-                ) : (
-                  <CardItem
-                    card={''}
-                    name={card.name}
-                    type={card.type}
-                    address={card.address}
-                    rank={card.rank}
-                  />
-                ),
-              )}
-            {!hasAuthError && (
-              <div className="flex justify-center w-full mt-2">
-                <button
-                  className="text-[#FF4999] text-lg text-center"
-                  style={{ fontFamily: 'koverwatch' }}
-                >
-                  SHOW ALL
-                </button>
-              </div>
-            )}
-            {hasAuthError && <LoginRequired />}
+            {hasExpendedCards ? 'HIDE FULL LIST' : 'SHOW ALL'}
+          </button>
+        </div>
+        {/* {!hasAuthError && (
+          <div className="flex justify-center w-full mt-2">
+            <button
+              className="text-[#FF4999] text-lg text-center"
+              style={{ fontFamily: 'koverwatch' }}
+            >
+              SHOW ALL
+            </button>
           </div>
-        </>
-      )}
+        )} */}
+        {/* {hasAuthError && <LoginRequired />} */}
+      </div>
 
       <h2
         className="w-full mt-20 text-4xl text-center text-white"
