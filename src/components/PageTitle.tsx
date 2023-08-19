@@ -1,11 +1,15 @@
 import { useCallback } from 'react';
 
-export const PageTitle: React.FC<
-  React.PropsWithChildren & {
-    subtitle?: string;
-    description?: string;
-  }
-> = ({ children, subtitle, description }) => {
+export type PageTitleProps = React.PropsWithChildren & {
+  subtitle?: string;
+  description?: string;
+};
+
+export const PageTitle: React.FC<PageTitleProps> = ({
+  children,
+  subtitle,
+  description,
+}) => {
   const moveToTop = useCallback(() => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   }, []);

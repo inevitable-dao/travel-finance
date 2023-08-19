@@ -36,7 +36,6 @@ const CardOpenPage: NextPage = () => {
           <h2 className="text-white">Results</h2>
 
           <div className="flex justify-center w-full gap-2 mt-2">
-            {/* FIXME: Inventory Page */}
             <Link href="/inventory">
               <Button>Inventory</Button>
             </Link>
