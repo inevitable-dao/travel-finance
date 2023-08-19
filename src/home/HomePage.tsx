@@ -12,7 +12,6 @@ import { ArticleItem } from '@/components/ArticleItem';
 import { BusanBadge } from '@/components/BusanBadge';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
-import { LoginRequired } from '@/components/LoginRequired';
 import { PageTitle } from '@/components/PageTitle';
 import { cn } from '@/lib/utils';
 
@@ -49,6 +48,7 @@ type CardPackItemProps = {
 };
 
 const CardPackItem: React.FC<CardPackItemProps> = ({
+  type,
   active,
   badge,
   onClick,
@@ -81,7 +81,11 @@ const CardPackItem: React.FC<CardPackItemProps> = ({
         animate={active ? 'active' : 'disabled'}
       />
       <img
-        src="/assets/card-pack.png"
+        src={
+          type === '1to4'
+            ? '/assets/card-pack-default.jpg'
+            : '/assets/card-pack-extra.jpg'
+        }
         className="w-[calc(100%_-_2px)] h-[62px] object-contain bg-black sm:w-full sm:h-full rounded-[7px]"
         alt=""
       />
@@ -228,7 +232,11 @@ const HomePage: NextPage = () => {
         <div className="flex flex-col items-center flex-1">
           <div className="w-full mt-8 max-w-[400px] bg-zinc-900 aspect-square relative z-0 rounded-md overflow-hidden">
             <img
-              src="/assets/card-pack.png"
+              src={
+                cardPackageType === '1to4'
+                  ? '/assets/card-pack-default.jpg'
+                  : '/assets/card-pack-extra.jpg'
+              }
               className="w-full h-full rounded-[5px]"
               alt=""
             />
