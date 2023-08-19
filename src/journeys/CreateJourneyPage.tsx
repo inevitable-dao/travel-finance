@@ -19,21 +19,10 @@ import {
 
 enum Stage {
   SELECT_DATE,
-  SELECT_CARDS,
   SELECT_ORDER,
 }
 
-// import { ItemTypes } from './ItemTypes'
-
-// const style = {
-//   border: '1px dashed gray',
-//   padding: '0.5rem 1rem',
-//   marginBottom: '.5rem',
-//   backgroundColor: 'white',
-//   cursor: 'move',
-// }
-
-export interface CardProps {
+interface CardProps {
   id: any;
   card: InventoryCard;
   index: number;
@@ -46,7 +35,7 @@ interface DragItem {
   type: string;
 }
 
-export const Card: FC<CardProps> = ({ id, card, index, moveCard }) => {
+const Card: FC<CardProps> = ({ id, card, index, moveCard }) => {
   const ref = useRef<HTMLDivElement>(null);
   const [{ handlerId }, drop] = useDrop<
     DragItem,
@@ -122,26 +111,11 @@ export const Card: FC<CardProps> = ({ id, card, index, moveCard }) => {
   const opacity = isDragging ? 0 : 1;
   drag(drop(ref));
   return (
-    <div ref={ref} style={{ ...style, opacity }} data-handler-id={handlerId}>
+    <div ref={ref} style={{ opacity }} data-handler-id={handlerId}>
       <CardItem card={''} {...card} />
     </div>
   );
 };
-
-// import { Card } from './Card';
-
-const style = {
-  width: 400,
-};
-
-export interface Item {
-  id: number;
-  text: string;
-}
-
-export interface ContainerState {
-  cards: Item[];
-}
 
 const CreateJourneyPage: NextPage = () => {
   const { cards, hasAuthError } = useInventory();
@@ -216,34 +190,27 @@ const CreateJourneyPage: NextPage = () => {
         </div>
       )}
 
-      {stage === Stage.SELECT_CARDS && (
+      {/* {stage === Stage.SELECT_ORDER && (
+        <div className="flex flex-col w-full">
+          {draftCards.map((card, i) => renderCard(card, i))}
+        </div>
+      )} */}
+
+      {stage === Stage.SELECT_ORDER && (
         <div className="flex flex-col w-full">
           {hasAuthError ? (
             <LoginRequired />
           ) : cards.length === 0 ? (
             <CardsEmpty />
           ) : (
-            cards.map((card) => (
-              // eslint-disable-next-line react/jsx-key
-              <Link href={`/inventory/${card.id}`}>
-                <CardItem
-                  card={''}
-                  name={card.name}
-                  type={card.type}
-                  address={card.address}
-                  rank={card.rank}
-                />
-              </Link>
-            ))
-          )}
-        </div>
-      )}
+            <div className="flex flex-col">
+              <h2>New Journey</h2>
+              {draftCards.map((card, i) => renderCard(card, i))}
 
-      {stage === Stage.SELECT_ORDER && (
-        <div className="flex flex-col w-full">
-          <div style={style}>
-            {draftCards.map((card, i) => renderCard(card, i))}
-          </div>
+              <h2>Inventory Cards</h2>
+              {cards.map((card, i) => renderCard(card, i))}
+            </div>
+          )}
         </div>
       )}
 
