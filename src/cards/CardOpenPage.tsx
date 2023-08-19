@@ -14,7 +14,7 @@ const CardOpenPage: NextPage = () => {
   const [stage, setStage] = useState<Stage>(Stage.COVER);
 
   return (
-    <div className="flex flex-col items-center">
+    <div className="flex flex-col items-center mt-[64px]">
       <PageTitle subtitle="Busan Card Pack #1">Open</PageTitle>
 
       {stage === Stage.COVER && (
