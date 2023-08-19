@@ -7,6 +7,7 @@ import Link from 'next/link';
 import React, { useEffect, useMemo, useState } from 'react';
 
 import { ArticleItem } from '@/components/ArticleItem';
+import { BusanBadge } from '@/components/BusanBadge';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
 import { PageTitle } from '@/components/PageTitle';
@@ -89,28 +90,7 @@ const HomePage: NextPage = () => {
 
           <div className="flex w-full">
             <div className="flex flex-col items-center flex-1 mt-4">
-              <span
-                className="flex items-center justify-center h-6 px-3 py-3 text-base font-medium text-center text-pink-300 border-solid border-[1px] border-pink-100/10 rounded-full w-fit bg-slate-100"
-                style={{
-                  background: `linear-gradient(90deg, rgb(255, 201, 225, 0.1) 0%, rgba(255, 138, 189, 0.3) 47.92%, rgb(255, 200, 224, 0.1) 100%)`,
-                }}
-              >
-                <img
-                  src="/assets/busan.png"
-                  className="w-[14px] h-[14px] mr-1 inline-block"
-                  alt=""
-                />
-
-                <span
-                  style={{
-                    fontFamily: 'koverwatch',
-                    lineHeight: 1,
-                    marginBottom: -2,
-                  }}
-                >
-                  {cardPackage?.name}
-                </span>
-              </span>
+              <BusanBadge />
 
               {/* original price */}
               <span className="flex items-center gap-1.5 mt-3">
