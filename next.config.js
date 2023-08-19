@@ -7,7 +7,7 @@ const withBundleAnalyzer = require('@next/bundle-analyzer')({
 module.exports = withPlugins(
   {
     swcMinify: true,
-    reactStrictMode: true,
+    reactStrictMode: false,
     compiler: {
       styledComponents: true,
     },

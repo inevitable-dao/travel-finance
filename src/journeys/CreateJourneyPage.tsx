@@ -1,10 +1,11 @@
-import type { Identifier, XYCoord } from 'dnd-core';
-import update from 'immutability-helper';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import type { FC } from 'react';
-import { useDrag, useDrop } from 'react-dnd';
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  OnDragEndResponder,
+} from 'react-beautiful-dnd';
 
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
@@ -22,111 +23,64 @@ enum Stage {
   SELECT_ORDER,
 }
 
-interface CardProps {
-  id: any;
-  card: InventoryCard;
-  index: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
-}
-
-interface DragItem {
-  index: number;
-  id: string;
-  type: string;
-}
-
-const Card: FC<CardProps> = ({ id, card, index, moveCard }) => {
-  const ref = useRef<HTMLDivElement>(null);
-  const [{ handlerId }, drop] = useDrop<
-    DragItem,
-    void,
-    { handlerId: Identifier | null }
-  >({
-    accept: 'CARD',
-    collect(monitor) {
-      return {
-        handlerId: monitor.getHandlerId(),
-      };
-    },
-    hover(item: DragItem, monitor) {
-      if (!ref.current) {
-        return;
-      }
-      const dragIndex = item.index;
-      const hoverIndex = index;
-
-      // Don't replace items with themselves
-      if (dragIndex === hoverIndex) {
-        return;
-      }
-
-      // Determine rectangle on screen
-      const hoverBoundingRect = ref.current?.getBoundingClientRect();
-
-      // Get vertical middle
-      const hoverMiddleY =
-        (hoverBoundingRect.bottom - hoverBoundingRect.top) / 2;
-
-      // Determine mouse position
-      const clientOffset = monitor.getClientOffset();
-
-      // Get pixels to the top
-      const hoverClientY = (clientOffset as XYCoord).y - hoverBoundingRect.top;
-
-      // Only perform the move when the mouse has crossed half of the items height
-      // When dragging downwards, only move when the cursor is below 50%
-      // When dragging upwards, only move when the cursor is above 50%
-
-      // Dragging downwards
-      if (dragIndex < hoverIndex && hoverClientY < hoverMiddleY) {
-        return;
-      }
-
-      // Dragging upwards
-      if (dragIndex > hoverIndex && hoverClientY > hoverMiddleY) {
-        return;
-      }
-
-      // Time to actually perform the action
-      moveCard(dragIndex, hoverIndex);
-
-      // Note: we're mutating the monitor item here!
-      // Generally it's better to avoid mutations,
-      // but it's good here for the sake of performance
-      // to avoid expensive index searches.
-      item.index = hoverIndex;
-    },
-  });
-
-  const [{ isDragging }, drag] = useDrag({
-    type: 'CARD',
-    item: () => {
-      return { id, index };
-    },
-    collect: (monitor: any) => ({
-      isDragging: monitor.isDragging(),
-    }),
-  });
-
-  const opacity = isDragging ? 0 : 1;
-  drag(drop(ref));
-  return (
-    <div ref={ref} style={{ opacity }} data-handler-id={handlerId}>
-      <CardItem card={''} {...card} />
-    </div>
-  );
+type DropContainerProps = {
+  id: number | string;
+  title: string;
+  cards: InventoryCard[];
 };
+const DropContainer: React.FC<DropContainerProps> = ({ id, title, cards }) => (
+  <div className="h-fit bg-zinc-900 min-h-[120px]">
+    <span style={{ marginBottom: 5 }}>{title}</span>
+    {/*
+    // @ts-ignore */}
+    <Droppable
+      // @ts-ignore
+      className="flex flex-1 w-full h-full"
+      droppableId={id.toString()}
+    >
+      {({ innerRef, placeholder }, { isDraggingOver }) => (
+        <div
+          ref={innerRef}
+          // isDraggingOver={isDraggingOver}
+        >
+          {!(cards.length === 0)
+            ? cards.map((card, index) => (
+                // @ts-ignore
+                <Draggable
+                  key={card.id}
+                  draggableId={card.id.toString()}
+                  index={index}
+                >
+                  {(
+                    {
+                      draggableProps,
+                      dragHandleProps: eventHandlers,
+                      innerRef,
+                    },
+                    { isDragging },
+                  ) => (
+                    <div
+                      ref={innerRef}
+                      {...draggableProps}
+                      {...eventHandlers}
+                      // isDragging={isDragging}
+                    >
+                      <CardItem card="" {...card} />
+                    </div>
+                  )}
+                </Draggable>
+              ))
+            : null}
+          {/* {placeholder}
+          <Footer /> */}
+        </div>
+      )}
+    </Droppable>
+  </div>
+);
 
 const CreateJourneyPage: NextPage = () => {
   const { cards, hasAuthError } = useInventory();
-
-  const [draftCards, setDraftCards] = useState<InventoryCard[]>([]);
-
-  useEffect(() => {
-    if (cards.length > 0) {
-      setDraftCards(cards);
-    }
-  }, [cards]);
 
   const [stage, setStage] = useState<Stage>(Stage.SELECT_DATE);
 
@@ -138,30 +92,113 @@ const CreateJourneyPage: NextPage = () => {
     setStage((prev) => prev + 1);
   }, []);
 
-  const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-    setDraftCards((prevCards: InventoryCard[]) =>
-      update(prevCards, {
-        $splice: [
-          [dragIndex, 1],
-          [hoverIndex, 0, prevCards[dragIndex] as InventoryCard],
-        ],
-      }),
-    );
-  }, []);
+  const [columns, setColumns] = useState<
+    {
+      _id: string;
+      cardIds: string[];
+    }[]
+  >([
+    { _id: 'draft', cardIds: [] },
+    { _id: 'inventory', cardIds: [] },
+  ]);
 
-  const renderCard = useCallback(
-    (card: InventoryCard, index: number) => {
-      return (
-        <Card
-          key={card.id}
-          index={index}
-          id={card.id}
-          card={card}
-          moveCard={moveCard}
-        />
-      );
+  const hasUpdatedRef = useRef<boolean>(false);
+  useEffect(() => {
+    if (hasUpdatedRef.current) {
+      return;
+    }
+    hasUpdatedRef.current = true;
+    setColumns((prev) =>
+      prev.map((column) =>
+        column._id === 'inventory'
+          ? {
+              ...column,
+              cardIds: cards.map((card) => card.id),
+            }
+          : column,
+      ),
+    );
+  }, [cards]);
+
+  const onDragEnd = useCallback<OnDragEndResponder>(
+    ({ source, destination, draggableId }) => {
+      // dropped inside of the list
+      if (source && destination) {
+        // this.setState((prevState) => {
+        // source container index and id
+        const { index: sourceIndex, droppableId: sourceId } = source;
+
+        // destination container index and id
+        const { index: destinationIndex, droppableId: destinationId } =
+          destination;
+
+        // source container object
+        const sourceContainer = columns.find(
+          (column) => column._id.toString() === sourceId.toString(),
+        );
+
+        // desination container object
+        const destinationContainer = columns.find(
+          (column) => column._id.toString() === destinationId.toString(),
+        );
+
+        console.log({ sourceContainer, destinationContainer });
+        if (!sourceContainer || !destinationContainer) {
+          return;
+        }
+
+        // source container "cardIds" array
+        const sourceIds = Array.from(sourceContainer.cardIds);
+
+        // destination container "cardIds" array
+        const destinationIds = Array.from(destinationContainer.cardIds);
+
+        // check if source and destination container are the same
+        const isSameContainer =
+          sourceContainer._id.toString() ===
+          destinationContainer._id.toString();
+
+        //  remove a userId from the source "cardIds" array via the sourceIndex
+        sourceIds.splice(sourceIndex, 1);
+
+        // add a userId (draggableId) to the source or destination "cardIds" array
+        if (isSameContainer) {
+          sourceIds.splice(destinationIndex, 0, draggableId);
+        } else {
+          destinationIds.splice(destinationIndex, 0, draggableId);
+        }
+
+        // update the source container with changed sourceIds
+        const newSourceContainer = {
+          ...sourceContainer,
+          cardIds: sourceIds,
+        };
+
+        // update the destination container with changed destinationIds
+        const newDestinationContainer = {
+          ...destinationContainer,
+          cardIds: destinationIds,
+        };
+
+        // loop through current columns and update the source
+        // and destination containers
+        const _columns = columns.map((column) => {
+          if (column._id.toString() === newSourceContainer._id.toString()) {
+            return newSourceContainer;
+          } else if (
+            column._id.toString() === newDestinationContainer._id.toString() &&
+            !isSameContainer
+          ) {
+            return newDestinationContainer;
+          } else {
+            return column;
+          }
+        });
+
+        setColumns(_columns);
+      }
     },
-    [moveCard],
+    [columns],
   );
 
   if (hasAuthError) {
@@ -190,12 +227,6 @@ const CreateJourneyPage: NextPage = () => {
         </div>
       )}
 
-      {/* {stage === Stage.SELECT_ORDER && (
-        <div className="flex flex-col w-full">
-          {draftCards.map((card, i) => renderCard(card, i))}
-        </div>
-      )} */}
-
       {stage === Stage.SELECT_ORDER && (
         <div className="flex flex-col w-full">
           {hasAuthError ? (
@@ -203,12 +234,26 @@ const CreateJourneyPage: NextPage = () => {
           ) : cards.length === 0 ? (
             <CardsEmpty />
           ) : (
-            <div className="flex flex-col">
-              <h2>New Journey</h2>
-              {draftCards.map((card, i) => renderCard(card, i))}
-
-              <h2>Inventory Cards</h2>
-              {cards.map((card, i) => renderCard(card, i))}
+            <div className="flex flex-col gap-4">
+              {/* @ts-ignore */}
+              <DragDropContext onDragEnd={onDragEnd}>
+                {columns.map(({ _id, cardIds }, index) => (
+                  <DropContainer
+                    id={_id}
+                    key={_id}
+                    title={index === 0 ? 'Draft' : 'Inventory'}
+                    cards={
+                      cardIds
+                        .map((id) =>
+                          cards.find(
+                            (card) => card.id.toString() === id.toString(),
+                          ),
+                        )
+                        .filter((v) => !!v) as InventoryCard[]
+                    }
+                  />
+                ))}
+              </DragDropContext>
             </div>
           )}
         </div>
