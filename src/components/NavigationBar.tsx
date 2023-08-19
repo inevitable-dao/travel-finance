@@ -18,7 +18,7 @@ export const NavigationBar: React.FC = () => {
               src="/assets/coin.png"
               className="w-[38px] h-[38px] left-0 bottom-0 absolute"
               style={{
-                boxShadow: `0px 4px 4px 0px rgba(0, 3, 85, 0.15)`,
+                filter: `drop-shadow(0px 4px 4px 0px rgba(0, 3, 85, 0.15))`,
               }}
               alt=""
             />
