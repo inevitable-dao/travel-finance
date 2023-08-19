@@ -56,9 +56,11 @@ const RecentJourneysPage: NextPage = () => {
         </Alert>
       </Link>
 
-      <JourneyItem />
-      <JourneyItem />
-      <JourneyItem />
+      <div className="flex flex-col w-full gap-2 mt-4">
+        <JourneyItem />
+        <JourneyItem />
+        <JourneyItem />
+      </div>
     </div>
   );
 };
