@@ -1,6 +1,7 @@
 import { NextPage } from 'next';
 import React from 'react';
 
+import { JourneyItem } from '@/components/JourneyItem';
 import { PageTitle } from '@/components/PageTitle';
 
 const RecentJourneysPage: NextPage = () => {
@@ -9,6 +10,10 @@ const RecentJourneysPage: NextPage = () => {
       <PageTitle description="Use your cards to plan your special journey">
         My Journeys
       </PageTitle>
+
+      <JourneyItem />
+      <JourneyItem />
+      <JourneyItem />
     </div>
   );
 };

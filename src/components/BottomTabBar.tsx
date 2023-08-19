@@ -20,7 +20,7 @@ export const BottomTabBar: React.FC = () => {
 
   return (
     <>
-      <div className="fixed bottom-0 left-0 right-0 flex w-full max-w-2xl mx-auto bg-black border-solid border-t border-zinc-800/80 h-[60px]">
+      <div className="fixed bottom-0 left-0 right-0 flex w-full max-w-2xl mx-auto bg-black border-solid border-t border-zinc-800/80 h-[60px] select-none">
         {TABS.map((tab) => (
           <div
             key={tab.route}
