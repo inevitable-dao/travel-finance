@@ -1,7 +1,40 @@
 /* eslint-disable @next/next/no-img-element */
 import styled from '@emotion/styled';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
+import { toast } from 'react-toastify';
+
+type CommonResponse<T> = {
+  statusCode: number;
+  timeStamp: string;
+  path: string;
+  result: T;
+};
 
 export const NavigationBar: React.FC = () => {
+  const [username, setUsername] = useState<string>();
+  const [point, setPoint] = useState<number>();
+  useEffect(() => {
+    const fetch = async () => {
+      try {
+        const res = await axios.get<
+          CommonResponse<{ username: string; point: number }>
+        >('https://stevejkang.jp.ngrok.io/users/me', {
+          headers: {
+            'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
+          },
+        });
+
+        setUsername(res.data.result.username);
+        setPoint(res.data.result.point);
+      } catch (e: any) {
+        toast.error(e);
+      }
+    };
+
+    fetch();
+  }, []);
+
   return (
     <div className="flex h-[32px]">
       <Container
@@ -22,10 +55,12 @@ export const NavigationBar: React.FC = () => {
               }}
               alt=""
             />
-            <Points style={{ fontFamily: 'koverwatch' }}>3,200</Points>
+            <Points style={{ fontFamily: 'koverwatch' }}>
+              {point?.toLocaleString('en-US')}
+            </Points>
           </div>
           <Name className="bg-[#363641] pl-2 pr-[16px] sm:pr-[16px] h-full w-fit flex items-center leading-none text-slate-400">
-            @junhoyeo
+            {username}
           </Name>
 
           <img
@@ -55,4 +90,5 @@ const Points = styled.span`
 const Name = styled.span`
   font-size: 16px;
   font-weight: 500;
+  font-family: 'koverwatch';
 `;
