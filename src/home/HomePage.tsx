@@ -315,6 +315,19 @@ const HomePage: NextPage = () => {
         </Link>
       </div>
 
+      <div className="flex-col hidden w-full p-2 mt-4 text-sm font-medium border border-solid border-sky-300 sm:flex">
+        <span
+          className="text-base text-sky-300"
+          style={{ fontFamily: 'koverwatch' }}
+        >
+          Guaranteed
+        </span>
+        <span className="text-slate-400" style={{ fontFamily: 'koverwatch' }}>
+          one transportation with the seaters of your choice, one stay, two
+          meals, and two cards for activity/attractions.
+        </span>
+      </div>
+
       <h2
         className="w-full mt-12 text-4xl text-white"
         style={{ fontFamily: 'koverwatch' }}
