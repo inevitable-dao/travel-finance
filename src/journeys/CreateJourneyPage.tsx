@@ -1,15 +1,11 @@
-import type { Identifier, XYCoord } from 'dnd-core';
-import update from 'immutability-helper';
 import { NextPage } from 'next';
-import Link from 'next/link';
 import React, { useCallback, useEffect, useRef, useState } from 'react';
-import type { FC } from 'react';
-import { OnDragEndResponder } from 'react-beautiful-dnd';
-import { DragDropContext } from 'react-beautiful-dnd';
-// import React from "react";
-// import isEmpty from "lodash/isEmpty";
-import { Draggable, Droppable } from 'react-beautiful-dnd';
-import { useDrag, useDrop } from 'react-dnd';
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  OnDragEndResponder,
+} from 'react-beautiful-dnd';
 
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
@@ -27,87 +23,64 @@ enum Stage {
   SELECT_ORDER,
 }
 
-interface CardProps {
-  id: any;
-  card: InventoryCard;
-  index: number;
-  moveCard: (dragIndex: number, hoverIndex: number) => void;
-}
-
-// import {
-//   Column,
-//   Footer,
-//   NoData,
-//   ShowBadge,
-//   Title,
-//   User,
-//   UserContainer
-// } from "../index";
-
-const DropContainer = ({ id, title, users }: any) => (
-  // <Column>
-  //   <Title style={{ marginBottom: 5 }}>{title}</Title>
-  // @ts-ignore
-  <Droppable droppableId={id}>
-    {
-      ({ innerRef, placeholder }, { isDraggingOver }) =>
-        // <UserContainer ref={innerRef} isDraggingOver={isDraggingOver}>
-        !(users.length === 0)
-          ? (users as any).map((user: any, index: number) => (
-              // @ts-ignore
-              <Draggable key={_id} draggableId={_id} index={index}>
-                {(
-                  { draggableProps, dragHandleProps: eventHandlers, innerRef },
-                  { isDragging },
-                ) => (
-                  // {...draggableProps}
-                  <div ref={innerRef} {...draggableProps} {...eventHandlers}>
-                    {JSON.stringify(user)}
-                  </div>
-                  // <User
-                  //   ref={innerRef}
-                  //   {...draggableProps}
-                  //   {...eventHandlers}
-                  //   isDragging={isDragging}
-                  // >
-                  //   {/* <ShowBadge response={response} style={{ margin: 0 }}>
-                  //     {firstName} {lastName}
-                  //   </ShowBadge> */}
-                  //   <span />
-                  //   {notes && (
-                  //     <p
-                  //       style={{
-                  //         margin: 0,
-                  //         paddingLeft: 25,
-                  //         fontStyle: 'italic',
-                  //       }}
-                  //     >
-                  //       ({notes})
-                  //     </p>
-                  //   )}
-                  // </User>
-                )}
-              </Draggable>
-            ))
-          : // <NoData />
-            null
-      // {placeholder}
-      // <Footer />
-      // </UserContainer>
-    }
-  </Droppable>
+type DropContainerProps = {
+  id: number | string;
+  title: string;
+  cards: InventoryCard[];
+};
+const DropContainer: React.FC<DropContainerProps> = ({ id, title, cards }) => (
+  <div className="h-fit bg-zinc-900 min-h-[120px]">
+    <span style={{ marginBottom: 5 }}>{title}</span>
+    {/*
+    // @ts-ignore */}
+    <Droppable
+      // @ts-ignore
+      className="flex flex-1 w-full h-full"
+      droppableId={id.toString()}
+    >
+      {({ innerRef, placeholder }, { isDraggingOver }) => (
+        <div
+          ref={innerRef}
+          // isDraggingOver={isDraggingOver}
+        >
+          {!(cards.length === 0)
+            ? cards.map((card, index) => (
+                // @ts-ignore
+                <Draggable
+                  key={card.id}
+                  draggableId={card.id.toString()}
+                  index={index}
+                >
+                  {(
+                    {
+                      draggableProps,
+                      dragHandleProps: eventHandlers,
+                      innerRef,
+                    },
+                    { isDragging },
+                  ) => (
+                    <div
+                      ref={innerRef}
+                      {...draggableProps}
+                      {...eventHandlers}
+                      // isDragging={isDragging}
+                    >
+                      <CardItem card="" {...card} />
+                    </div>
+                  )}
+                </Draggable>
+              ))
+            : null}
+          {/* {placeholder}
+          <Footer /> */}
+        </div>
+      )}
+    </Droppable>
+  </div>
 );
 
 const CreateJourneyPage: NextPage = () => {
   const { cards, hasAuthError } = useInventory();
-
-  // const [draftCards, setDraftCards] = useState<InventoryCard[]>([]);
-
-  // useEffect(() => {
-  //   if (cards.length > 0) {
-  //     setDraftCards(cards);
-  //   }
-  // }, [cards]);
 
   const [stage, setStage] = useState<Stage>(Stage.SELECT_DATE);
 
@@ -119,47 +92,6 @@ const CreateJourneyPage: NextPage = () => {
     setStage((prev) => prev + 1);
   }, []);
 
-  // const moveCard = useCallback((dragIndex: number, hoverIndex: number) => {
-  //   setDraftCards((prevCards: InventoryCard[]) =>
-  //     update(prevCards, {
-  //       $splice: [
-  //         [dragIndex, 1],
-  //         [hoverIndex, 0, prevCards[dragIndex] as InventoryCard],
-  //       ],
-  //     }),
-  //   );
-  // }, []);
-
-  // const renderCard = useCallback(
-  //   (card: InventoryCard, index: number) => {
-  //     return (
-  //       <Card
-  //         key={card.id}
-  //         index={index}
-  //         id={card.id}
-  //         card={card}
-  //         moveCard={moveCard}
-  //       />
-  //     );
-  //   },
-  //   [moveCard],
-  // );
-
-  // columns: [
-  //   {
-  //     _id: "employees",
-  //     title: "Employees",
-  //     cardIds: [...seasonData.members.map(({ _id }) => _id)]
-  //   },
-  //   ...eventData.callTimes.map(callTime => ({
-  //     _id: callTime,
-  //     title: moment(callTime).format("hh:ss a"),
-  //     cardIds: []
-  //   }))
-  // ]
-
-  // const [draftCardIds, setDraftCardIds] = useState<string[]>([]);
-  // const [allCardIds, setAllCardIds] = useState<string[]>([]);
   const [columns, setColumns] = useState<
     {
       _id: string;
@@ -170,12 +102,12 @@ const CreateJourneyPage: NextPage = () => {
     { _id: 'inventory', cardIds: [] },
   ]);
 
+  const hasUpdatedRef = useRef<boolean>(false);
   useEffect(() => {
-    // draftCards = []
-    // allCards = cards
-
-    // setColumns(cards.map((v) => v.id));
-
+    if (hasUpdatedRef.current) {
+      return;
+    }
+    hasUpdatedRef.current = true;
     setColumns((prev) =>
       prev.map((column) =>
         column._id === 'inventory'
@@ -202,14 +134,15 @@ const CreateJourneyPage: NextPage = () => {
 
         // source container object
         const sourceContainer = columns.find(
-          (column) => column._id === sourceId,
+          (column) => column._id.toString() === sourceId.toString(),
         );
 
         // desination container object
         const destinationContainer = columns.find(
-          (column) => column._id === destinationId,
+          (column) => column._id.toString() === destinationId.toString(),
         );
 
+        console.log({ sourceContainer, destinationContainer });
         if (!sourceContainer || !destinationContainer) {
           return;
         }
@@ -222,7 +155,8 @@ const CreateJourneyPage: NextPage = () => {
 
         // check if source and destination container are the same
         const isSameContainer =
-          sourceContainer._id === destinationContainer._id;
+          sourceContainer._id.toString() ===
+          destinationContainer._id.toString();
 
         //  remove a userId from the source "cardIds" array via the sourceIndex
         sourceIds.splice(sourceIndex, 1);
@@ -249,10 +183,10 @@ const CreateJourneyPage: NextPage = () => {
         // loop through current columns and update the source
         // and destination containers
         const _columns = columns.map((column) => {
-          if (column._id === newSourceContainer._id) {
+          if (column._id.toString() === newSourceContainer._id.toString()) {
             return newSourceContainer;
           } else if (
-            column._id === newDestinationContainer._id &&
+            column._id.toString() === newDestinationContainer._id.toString() &&
             !isSameContainer
           ) {
             return newDestinationContainer;
@@ -261,11 +195,7 @@ const CreateJourneyPage: NextPage = () => {
           }
         });
 
-        // return {
-        //   ...prevState,
-        //   columns,
-        // };
-        // });
+        setColumns(_columns);
       }
     },
     [columns],
@@ -297,12 +227,6 @@ const CreateJourneyPage: NextPage = () => {
         </div>
       )}
 
-      {/* {stage === Stage.SELECT_ORDER && (
-        <div className="flex flex-col w-full">
-          {draftCards.map((card, i) => renderCard(card, i))}
-        </div>
-      )} */}
-
       {stage === Stage.SELECT_ORDER && (
         <div className="flex flex-col w-full">
           {hasAuthError ? (
@@ -310,35 +234,23 @@ const CreateJourneyPage: NextPage = () => {
           ) : cards.length === 0 ? (
             <CardsEmpty />
           ) : (
-            // <div className="flex flex-col">
-            //   <h2>New Journey</h2>
-            //   {draftCards.map((card, i) => renderCard(card, i))}
-
-            //   <h2>Inventory Cards</h2>
-            //   {cards.map((card, i) => renderCard(card, i))}
-            // </div>
-            <div className="flex flex-col">
+            <div className="flex flex-col gap-4">
+              {/* @ts-ignore */}
               <DragDropContext onDragEnd={onDragEnd}>
-                {/* <Legend>
-                  <Title style={{ marginBottom: 5 }}>Legend</Title>
-                  {responses.map((response) => (
-                    <ShowBadge
-                      key={response}
-                      response={response}
-                      style={{ fontSize: 17 }}
-                    >
-                      {response}
-                    </ShowBadge>
-                  ))}
-                </Legend> */}
-                {columns.map(({ _id, title, userIds }) => (
+                {columns.map(({ _id, cardIds }, index) => (
                   <DropContainer
                     id={_id}
                     key={_id}
-                    title={title}
-                    users={userIds.map((id) =>
-                      users.find((user) => user._id === id),
-                    )}
+                    title={index === 0 ? 'Draft' : 'Inventory'}
+                    cards={
+                      cardIds
+                        .map((id) =>
+                          cards.find(
+                            (card) => card.id.toString() === id.toString(),
+                          ),
+                        )
+                        .filter((v) => !!v) as InventoryCard[]
+                    }
                   />
                 ))}
               </DragDropContext>
