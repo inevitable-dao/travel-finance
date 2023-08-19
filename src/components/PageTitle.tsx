@@ -17,7 +17,7 @@ export const PageTitle: React.FC<PageTitleProps> = ({
   return (
     <div className="fixed top-0 flex flex-col w-full mt-4 max-w-2xl px-5 mx-auto pointer-events-none z-[60]">
       <h1
-        className="text-3xl font-bold text-white cursor-pointer pointer-events-auto"
+        className="text-2xl font-bold text-white cursor-pointer pointer-events-auto sm:text-3xl"
         style={{ fontFamily: 'koverwatch' }}
         onClick={moveToTop}
       >

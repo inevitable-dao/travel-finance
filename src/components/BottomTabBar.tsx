@@ -5,7 +5,7 @@ import { cn } from '@/lib/utils';
 
 export const TABS = [
   { name: 'Home', route: '/', icon: <Home size={22} /> },
-  { name: 'Travel', route: '/cards/select', icon: <Plane size={22} /> },
+  { name: 'Journeys', route: '/journeys', icon: <Plane size={22} /> },
   { name: 'Inventory', route: '/inventory', icon: <WalletCards size={22} /> },
 ];
 

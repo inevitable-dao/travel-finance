@@ -41,9 +41,9 @@ const InventoryCardDetailPage: NextPage = () => {
               </Button>
             </Link>
 
-            <Link href="/cards/select" className="flex-1">
+            <Link href="/journeys/new" className="flex-1">
               <Button variant="secondary" className="w-full">
-                Select
+                Create a new Journey
               </Button>
             </Link>
           </div>
