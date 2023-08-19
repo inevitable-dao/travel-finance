@@ -5,7 +5,7 @@ import { useCallback, useEffect, useState } from 'react';
 
 import { PageTitle } from '@/components/PageTitle';
 
-type CommonResponese<T> = {
+type CommonResponse<T> = {
   statusCode: number;
   timeStamp: string;
   path: string;
@@ -19,7 +19,7 @@ const LoginPage: NextPage = () => {
   const [password, setPassword] = useState<string>('');
   const login = useCallback(async () => {
     try {
-      const res = await axios.post<CommonResponese<{ token: string }>>(
+      const res = await axios.post<CommonResponse<{ token: string }>>(
         'https://stevejkang.jp.ngrok.io/users/sign-in',
         { username: email, password: password },
       );
