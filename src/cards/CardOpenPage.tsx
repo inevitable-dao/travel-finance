@@ -49,7 +49,7 @@ const CardOpenPage: NextPage = () => {
 
   const [isVideoStarted, setVideoStarted] = useState<boolean>(false);
 
-  const [status, setStatus] = useState<boolean>(true);
+  const [authStatus, setAuthStatus] = useState<boolean>(true);
   useEffect(() => {
     const fetch = async () => {
       try {
@@ -59,7 +59,7 @@ const CardOpenPage: NextPage = () => {
           },
         });
       } catch (error: any) {
-        setStatus(false);
+        setAuthStatus(false);
         toast.error(error);
       }
     };
@@ -84,10 +84,10 @@ const CardOpenPage: NextPage = () => {
         );
 
         setCards(res.data.result.cards);
-        setStatus(true);
+        setAuthStatus(true);
       } catch (e: any) {
         toast.error(e);
-        setStatus(false);
+        setAuthStatus(false);
       }
     };
 
@@ -104,7 +104,7 @@ const CardOpenPage: NextPage = () => {
     <div className="flex flex-col items-center mt-[64px]">
       <PageTitle subtitle="Busan Card Pack #1">Open</PageTitle>
 
-      {status === false ? (
+      {authStatus === false ? (
         <LoginRequired />
       ) : (
         <>
