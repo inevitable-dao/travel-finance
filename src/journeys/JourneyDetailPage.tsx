@@ -5,7 +5,7 @@ import React from 'react';
 import { Button } from '@/components/Button';
 import { PageTitle } from '@/components/PageTitle';
 
-const GoJourneyPage: NextPage = () => {
+const JourneyDetailPage: NextPage = () => {
   return (
     <div className="flex flex-col items-center mt-[64px]">
       <PageTitle description="Use your cards to plan your special journey">
@@ -28,4 +28,4 @@ const GoJourneyPage: NextPage = () => {
   );
 };
 
-export default GoJourneyPage;
+export default JourneyDetailPage;
