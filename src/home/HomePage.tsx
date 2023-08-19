@@ -1,20 +1,54 @@
+import axios from 'axios';
 import { BadgePercent, Umbrella, User2 } from 'lucide-react';
 
 /* eslint-disable @next/next/no-img-element */
 import { NextPage } from 'next';
 import Link from 'next/link';
-import React, { useMemo } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 
 import { ArticleItem } from '@/components/ArticleItem';
 import { Button } from '@/components/Button';
 import { CardItem } from '@/components/CardItem';
 import { PageTitle } from '@/components/PageTitle';
 
+type CommonResponese<T> = {
+  statusCode: number;
+  timeStamp: string;
+  path: string;
+  result: {
+    availableCardPackage: T;
+  };
+};
+
+type CardPackage = {
+  id: number;
+  name: string;
+  originalPrice: number;
+  price: number;
+};
+
 const currentPrice = 200_000;
 const HomePage: NextPage = () => {
-  const originalPrice = useMemo(() => {
-    // original price = 120% of the current price
-    return currentPrice * 1.2;
+  const [cardPackage, setCardPackage] = useState<CardPackage>();
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await axios.get<CommonResponese<CardPackage>>(
+        'https://stevejkang.jp.ngrok.io/card-packages',
+      );
+
+      console.log(res);
+
+      setCardPackage(res.data.result.availableCardPackage);
+    };
+
+    fetch();
+  }, []);
+
+  useEffect(() => {
+    const fetch = async () => {
+      const res = await axios.get;
+    };
   }, []);
 
   return (
@@ -74,7 +108,7 @@ const HomePage: NextPage = () => {
                     marginBottom: -2,
                   }}
                 >
-                  Busan Card Pack #1
+                  {cardPackage?.name}
                 </span>
               </span>
 
@@ -100,7 +134,7 @@ const HomePage: NextPage = () => {
                     className="text-2xl leading-none line-through text-slate-400"
                     style={{ fontFamily: 'koverwatch' }}
                   >
-                    {originalPrice.toLocaleString()}
+                    {cardPackage?.originalPrice.toLocaleString()}
                   </span>
                 </span>
               </span>
