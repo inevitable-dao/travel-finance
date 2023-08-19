@@ -61,20 +61,26 @@ const HomePage: NextPage = () => {
         <div className="w-full sm:w-[156px] mt-8 sm:mt-0 justify-center items-center flex flex-col gap-2">
           <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
             <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
-            <span className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-xl shadow-lg left-2 bottom-2 bg-zinc-200/50 backdrop-blur-md text-zinc-900">
-              <span className="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-600">
-                <User2 className="" size={12} strokeWidth={3} />
-              </span>
-              <span>1~4</span>
+            <span
+              className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
+              style={{
+                background: `linear-gradient(180deg, #70F6FF 0%, #F83E90 100%)`,
+                fontFamily: 'koverwatch',
+              }}
+            >
+              <span>1 to 4</span>
             </span>
           </div>
           <div className="flex w-full relative rounded-lg h-[64px] sm:h-auto sm:aspect-square bg-black items-center justify-center p-[1px] overflow-hidden border border-solid border-zinc-800">
             <img src="/assets/card-pack.png" className="w-full h-full" alt="" />
-            <span className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-xl shadow-lg left-2 bottom-2 bg-zinc-200/50 backdrop-blur-md text-zinc-900">
-              <span className="flex items-center justify-center w-4 h-4 rounded-full bg-zinc-600">
-                <User2 className="" size={12} strokeWidth={3} />
-              </span>
-              <span>5~</span>
+            <span
+              className="absolute flex gap-1 p-1 pr-1.5 font-bold rounded-sm left-2 bottom-2 text-blue-950"
+              style={{
+                background: `linear-gradient(180deg, #70F6FF 0%, #F83E90 100%)`,
+                fontFamily: 'koverwatch',
+              }}
+            >
+              <span>From 5</span>
             </span>
           </div>
         </div>
@@ -86,6 +92,23 @@ const HomePage: NextPage = () => {
               className="w-full h-full rounded-[5px]"
               alt=""
             />
+          </div>
+
+          <div className="relative w-full h-[1px] overflow-hidden border-t rounded-3xl border-slate-6">
+            <div
+              aria-hidden="true"
+              className="left-1/2 top-0 w-[300px] user-select-none center pointer-events-none absolute h-px max-w-full -translate-x-1/2 -translate-y-1/2"
+              style={{
+                background: `linear-gradient(90deg, rgba(0, 0, 0, 0) 0%, rgba(255, 255, 255, 0.0) 0%, rgba(143, 143, 143, 0.67) 50%, rgba(0, 0, 0, 0) 100%)`,
+              }}
+            ></div>
+            <div
+              aria-hidden="true"
+              className="-top-1 left-1/2 h-[200px] w-full max-w-[200px] md:max-w-[400px] user-select-none center pointer-events-none absolute -translate-x-1/2 -translate-y-1/2"
+              style={{
+                background: `conic-gradient(from 90deg at 50% 50%, #00000000 50%, #000 50%),radial-gradient(rgba(200,200,200,0.1) 0%, transparent 80%)`,
+              }}
+            ></div>
           </div>
 
           <div className="flex w-full">
