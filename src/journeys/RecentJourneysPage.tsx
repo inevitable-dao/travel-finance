@@ -58,9 +58,18 @@ const RecentJourneysPage: NextPage = () => {
       </Link>
 
       <div className="flex flex-col w-full gap-2 mt-4">
-        <JourneyItem />
-        <JourneyItem />
-        <JourneyItem />
+        <JourneyItem
+          vehicleName="Kia Sportage | 기아 스포티지"
+          vehicleSrc="/assets/cards/mockup-001.png"
+        />
+        <JourneyItem
+          vehicleName="Kia Carnival | 기아 카니발"
+          vehicleSrc="/assets/cards/mockup-002.png"
+        />
+        <JourneyItem
+          vehicleName="Tesla Model X | 테슬라 모델 X"
+          vehicleSrc="/assets/cards/mockup-003.png"
+        />
       </div>
 
       <div className="fixed bottom-[68px] p-4 pb-2 bg-black/40 backdrop-blur-sm left-0 right-0 max-w-2xl mx-auto">

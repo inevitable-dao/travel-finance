@@ -11,7 +11,7 @@ const JourneyDetailPage: NextPage = () => {
   return (
     <div className="flex flex-col items-center mt-[64px]">
       <PageTitle description="Use your cards to plan your special journey">
-        Go
+        Journey Details
       </PageTitle>
 
       <div className="relative flex justify-center w-full max-w-lg py-6 rounded-md bg-zinc-900">
@@ -45,7 +45,7 @@ const JourneyDetailPage: NextPage = () => {
               12가 1234
             </span>
             <span className="font-medium text-left text-slate-400">
-              기아 스포티지 | Kia Sportage
+              Kia Sportage | 기아 스포티지
             </span>
           </div>
         </div>

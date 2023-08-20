@@ -24,13 +24,22 @@ const DateBadge: React.FC<React.HTMLAttributes<HTMLSpanElement>> = ({
   </span>
 );
 
-export const JourneyItem: React.FC = () => {
+type JourneyItemProps = {
+  vehicleName: string;
+  vehicleSrc: string;
+  // badgeSrc: string;
+};
+export const JourneyItem: React.FC<JourneyItemProps> = ({
+  vehicleName,
+  vehicleSrc,
+  // badgeSrc,
+}) => {
   return (
     <Link href="/journeys/1" className="w-full">
       <div className="flex flex-col gap-2 py-4">
         <div className="flex items-center gap-3">
           <img
-            src="/assets/cards/mockup-001.png"
+            src={vehicleSrc}
             alt=""
             className="w-[64px] h-[64px] object-contain"
           />
@@ -39,7 +48,8 @@ export const JourneyItem: React.FC = () => {
               className="text-2xl font-bold text-white"
               style={{ fontFamily: 'koverwatch' }}
             >
-              기아 스포티지 | Kia Sportage
+              {/* 기아 스포티지 | Kia Sportage */}
+              {vehicleName}
             </span>
 
             <span className="flex items-center gap-2">
