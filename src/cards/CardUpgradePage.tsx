@@ -11,6 +11,7 @@ import { CardItem } from '@/components/CardItem';
 import { CardsEmpty } from '@/components/CardsEmpty';
 import { LoginRequired } from '@/components/LoginRequired';
 import { PageBack } from '@/components/PageBack';
+import { Checkbox } from '@/components/ui/checkbox';
 import { useInventory } from '@/inventory/hooks/useInventory';
 
 type CommonResponse<T> = {
@@ -37,13 +38,36 @@ const CardUpgradePage: NextPage = () => {
   const router = useRouter();
   const targetCardId = router.query.baseCardId;
 
+  const targetCard = useMemo(() => {
+    if (!targetCardId) {
+      return null;
+    }
+    return cards.filter((card) => card.id == targetCardId)[0];
+  }, [cards, targetCardId]);
+
+  const renderedInventory = useMemo(() => {
+    // if targetCard is available, remove it from inventory
+    if (targetCard) {
+      return cards.filter((card) => card.id !== targetCard.id);
+    }
+    return cards;
+  }, [cards, targetCard]);
+
+  const [selectedSacrificeIds, setSelectedSacrificeIds] = useState<string[]>(
+    [],
+  );
+
+  const upgradeDisabled = !(
+    selectedSacrificeIds.length < 3 && selectedSacrificeIds.length > 0
+  );
+
   const upgrade = useCallback(async () => {
     try {
       const res = await axios.post<CommonResponse<{ card: CardItem }>>(
         'https://stevejkang.jp.ngrok.io/cards/upgrade',
         {
           targetCardId,
-          sourceCardsId: [cards[1].id, cards[2].id],
+          sourceCardsId: selectedSacrificeIds,
         },
         {
           headers: {
@@ -56,19 +80,7 @@ const CardUpgradePage: NextPage = () => {
     } catch (e: any) {
       toast.error(e);
     }
-  }, [cards, targetCardId]);
-
-  // const [baseCard, setCard] = useState<CardItem>();
-  // useEffect(() => {
-  //   setCard(cards.filter((card) => card.id == router.query.cardId)[0]);
-  // }, [cards, router.query.cardId]);
-
-  const targetCard = useMemo(() => {
-    if (!targetCardId) {
-      return null;
-    }
-    return cards.filter((card) => card.id == targetCardId)[0];
-  }, [cards, targetCardId]);
+  }, [selectedSacrificeIds, targetCardId]);
 
   return (
     <div className="flex flex-col items-center mt-[64px]">
@@ -115,7 +127,7 @@ const CardUpgradePage: NextPage = () => {
             </div>
           </div>
           <div className="flex-1 rounded-md bg-zinc-800">
-            <h3>UPGRADE PARTS (SCROLL)</h3>
+            <h3>SELECT CARDS TO BURN (MAX 2)</h3>
 
             <div className="flex flex-col w-full h-[360px] overflow-scroll">
               {hasAuthError ? (
@@ -123,16 +135,37 @@ const CardUpgradePage: NextPage = () => {
               ) : cards.length === 0 ? (
                 <CardsEmpty />
               ) : (
-                cards.map((card) => (
+                renderedInventory.map((card) => (
                   // eslint-disable-next-line react/jsx-key
-                  <CardItem
-                    key={card.id}
-                    card={`http://d23ybff5p6c2tt.cloudfront.net/${card.id}.png`}
-                    name={card.name}
-                    type={card.type}
-                    address={card.address}
-                    rank={card.rank}
-                  />
+                  <div className="flex gap-3">
+                    <Checkbox
+                      id={`card-${card.id}`}
+                      checked={selectedSacrificeIds.includes(card.id)}
+                      onCheckedChange={() =>
+                        setSelectedSacrificeIds((prev) => {
+                          if (prev.includes(card.id)) {
+                            return prev.filter((id) => id !== card.id);
+                          }
+
+                          // MAX source length is 2!
+                          if (prev.length >= 2) {
+                            return prev;
+                          }
+                          return [...prev, card.id];
+                        })
+                      }
+                    />
+                    <label htmlFor={`card-${card.id}`} className="flex-1">
+                      <CardItem
+                        key={card.id}
+                        card={`http://d23ybff5p6c2tt.cloudfront.net/${card.id}.png`}
+                        name={card.name}
+                        type={card.type}
+                        address={card.address}
+                        rank={card.rank}
+                      />
+                    </label>
+                  </div>
                 ))
               )}
             </div>
@@ -140,11 +173,15 @@ const CardUpgradePage: NextPage = () => {
         </div>
       </div>
 
+      {JSON.stringify(selectedSacrificeIds)}
+
       <div className="flex justify-center w-full gap-2 mt-2">
         <Button
           className="flex justify-center w-full gap-1 px-8 items-top"
           onClick={() => upgrade()}
           price={500}
+          disabled={upgradeDisabled}
+          style={{ opacity: upgradeDisabled ? 0.5 : 1 }}
         >
           <ChevronsUp size={18} strokeWidth={3} className="mt-0.5 ml-[-4px]" />
           <span>Upgrade</span>
