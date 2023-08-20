@@ -47,7 +47,7 @@ const InventoryPage: NextPage = () => {
             <div className="my-2">
               <Link href={`/inventory/${card.id}`}>
                 <CardItem
-                  card={''}
+                  card={`http://d23ybff5p6c2tt.cloudfront.net/${card.id}.png`}
                   name={card.name}
                   type={card.type}
                   address={card.address}

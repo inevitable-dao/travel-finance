@@ -337,7 +337,7 @@ const HomePage: NextPage = () => {
       <div className="flex flex-col w-full gap-2 mt-2">
         {renderedCards.map((card, index) => (
           <CardItem
-            card={''}
+            card={`http://d23ybff5p6c2tt.cloudfront.net/${card.id}.png`}
             key={index}
             name={card.name}
             type={card.type}

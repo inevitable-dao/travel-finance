@@ -14,3 +14,25 @@ module.exports = withPlugins(
   },
   [withBundleAnalyzer],
 );
+
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  images: {
+    remotePatterns: [
+      {
+        protocol: 'http',
+        hostname: 'd23ybff5p6c2tt.cloudfront.net',
+      },
+      {
+        protocol: 'http',
+        hostname: '**.cloudfront.net',
+      },
+      {
+        protocol: 'https',
+        hostname: '**.cloudfront.net',
+      },
+    ],
+  },
+};
+
+module.exports = nextConfig;
