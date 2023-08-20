@@ -36,19 +36,23 @@ const CardUpgradePage: NextPage = () => {
   const [newCard, setNewCard] = useState<CardItem>();
 
   const router = useRouter();
-  const targetCardId = router.query.baseCardId;
+  const targetCardId = parseInt((router.query.baseCardId as string) || '');
 
   const targetCard = useMemo(() => {
     if (!targetCardId) {
       return null;
     }
-    return cards.filter((card) => card.id == targetCardId)[0];
+    return cards.filter(
+      (card) => card.id.toString() == targetCardId.toString(),
+    )[0];
   }, [cards, targetCardId]);
 
   const renderedInventory = useMemo(() => {
     // if targetCard is available, remove it from inventory
     if (targetCard) {
-      return cards.filter((card) => card.id !== targetCard.id);
+      return cards.filter(
+        (card) => card.id.toString() !== targetCard.id.toString(),
+      );
     }
     return cards;
   }, [cards, targetCard]);
@@ -67,7 +71,7 @@ const CardUpgradePage: NextPage = () => {
         'https://stevejkang.jp.ngrok.io/cards/upgrade',
         {
           targetCardId,
-          sourceCardsId: selectedSacrificeIds,
+          sourceCardsId: selectedSacrificeIds.map((v) => parseInt(v)),
         },
         {
           headers: {
@@ -127,9 +131,14 @@ const CardUpgradePage: NextPage = () => {
             </div>
           </div>
           <div className="flex-1 rounded-md bg-zinc-800">
-            <h3>SELECT CARDS TO BURN (MAX 2)</h3>
+            <div className="p-5 flex flex-col w-max">
+              <h3 className="text-3xl" style={{ fontFamily: 'koverwatch' }}>
+                SELECT CARDS TO BURN🔥
+              </h3>
+              <span className="text-slate-400 self-baseline">Up to 2</span>
+            </div>
 
-            <div className="flex flex-col w-full h-[360px] overflow-scroll">
+            <div className="flex flex-col w-full h-[620px] overflow-scroll">
               {hasAuthError ? (
                 <LoginRequired />
               ) : cards.length === 0 ? (
@@ -137,21 +146,26 @@ const CardUpgradePage: NextPage = () => {
               ) : (
                 renderedInventory.map((card) => (
                   // eslint-disable-next-line react/jsx-key
-                  <div className="flex gap-3">
+                  <div className="flex flex-row gap-3 w-full">
                     <Checkbox
+                      className="self-center justify-self-center"
                       id={`card-${card.id}`}
-                      checked={selectedSacrificeIds.includes(card.id)}
+                      checked={selectedSacrificeIds.includes(
+                        card.id.toString(),
+                      )}
                       onCheckedChange={() =>
                         setSelectedSacrificeIds((prev) => {
                           if (prev.includes(card.id)) {
-                            return prev.filter((id) => id !== card.id);
+                            return prev.filter(
+                              (id) => id.toString() !== card.id.toString(),
+                            );
                           }
 
                           // MAX source length is 2!
                           if (prev.length >= 2) {
                             return prev;
                           }
-                          return [...prev, card.id];
+                          return [...prev, card.id.toString()];
                         })
                       }
                     />
@@ -172,8 +186,6 @@ const CardUpgradePage: NextPage = () => {
           </div>
         </div>
       </div>
-
-      {JSON.stringify(selectedSacrificeIds)}
 
       <div className="flex justify-center w-full gap-2 mt-2">
         <Button

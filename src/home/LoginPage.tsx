@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { NextPage } from 'next';
+import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useCallback, useEffect, useState } from 'react';
 
@@ -84,6 +85,10 @@ const LoginPage: NextPage = () => {
         <Button type="button" className="w-full" onClick={() => login()}>
           Login
         </Button>
+
+        <span className="text-center text-white font-medium mt-4 flex justify-center w-full">
+          <Link href="/signup">Or Sign Up</Link>
+        </span>
       </div>
     </div>
   );
