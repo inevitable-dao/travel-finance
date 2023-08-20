@@ -47,7 +47,7 @@ const InventoryCardDetailPage: NextPage = () => {
           alt="등급"
           width="380"
           height="350"
-          className="z-0 absolute"
+          className="absolute z-0"
         />
         <Image
           src={`http://d23ybff5p6c2tt.cloudfront.net/${card?.id}.png`}
@@ -63,15 +63,19 @@ const InventoryCardDetailPage: NextPage = () => {
             className="text-3xl font-medium text-white"
             style={{ fontFamily: 'koverwatch' }}
           >
-            {card?.name}
+            {card?.name || 'Unknown'}
           </span>
-          <span className="mt-2 text-md text-slate-400">{card?.address}</span>
-          <p className="mt-2 leading-tight text-md text-slate-500">
-            {card?.description}
-          </p>
+          {card?.address && (
+            <span className="mt-2 text-md text-slate-400">{card.address}</span>
+          )}
+          {card?.description && (
+            <p className="mt-2 leading-tight text-md text-slate-500">
+              {card.description}
+            </p>
+          )}
 
           <div className="flex justify-center gap-2 mt-4">
-            <Link href="/cards/upgrade">
+            <Link href={`/cards/upgrade?baseCardId=${card?.id || ''}`}>
               <Button className="flex gap-1 px-8 items-top" price={500}>
                 <ChevronsUp
                   size={18}
