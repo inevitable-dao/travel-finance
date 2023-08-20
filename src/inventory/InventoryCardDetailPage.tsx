@@ -1,5 +1,6 @@
 import { ChevronsUp } from 'lucide-react';
 import { NextPage } from 'next';
+import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import React, { useEffect, useState } from 'react';
@@ -40,7 +41,14 @@ const InventoryCardDetailPage: NextPage = () => {
     <div className="flex flex-col items-center">
       <PageBack />
 
-      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square" />
+      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square mt-5">
+        <Image
+          src={`http://d23ybff5p6c2tt.cloudfront.net/${card?.id}.png`}
+          alt="카드"
+          width="380"
+          height="350"
+        />
+      </div>
 
       <div className="flex w-full">
         <div className="flex flex-col flex-1 mt-4">
