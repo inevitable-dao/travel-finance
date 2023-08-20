@@ -17,8 +17,15 @@ export const CardItem: React.FC<CardItemProps> = ({
 }) => {
   return (
     <div className="flex w-full gap-2 p-1 overflow-hidden rounded-md bg-zinc-900">
-      <div className="w-[72px] h-[72px] bg-black rounded-sm aspect-square relative z-0">
-        <Image src={card} alt="이미지" />
+      <div className="w-[72px] h-[72px] bg-black rounded-sm aspect-square relative z-0 justify-center flex">
+        <Image
+          src={`/assets/${['B', 'A', 'S'][rank]}.png`}
+          alt="등급"
+          width="55"
+          height="65"
+          className="z-0 absolute"
+        />
+        <Image src={card} alt="이미지" width="55" height="60" />
       </div>
       <div className="flex flex-col w-full justify-evenly">
         <span
@@ -40,7 +47,13 @@ export const CardItem: React.FC<CardItemProps> = ({
         </div>
       </div>
       <div className="w-[72px] h-[72px] text-slate-100">
-        {['B', 'A', 'S'][rank]}
+        <Image
+          src={`/assets/${['B', 'A', 'S'][rank]}-square.png`}
+          alt="등급"
+          width="256"
+          height="256"
+          className="w-[85px] h-[75px] object-contain pr-3"
+        />
       </div>
     </div>
   );
