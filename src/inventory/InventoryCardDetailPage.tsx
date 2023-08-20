@@ -41,7 +41,14 @@ const InventoryCardDetailPage: NextPage = () => {
     <div className="flex flex-col items-center">
       <PageBack />
 
-      <div className="w-full max-w-[400px] bg-zinc-900 aspect-square mt-5">
+      <div className="w-full max-w-[400px] flex justify-center object-contain my-5">
+        <Image
+          src={`/assets/${['B', 'A', 'S'][card?.rank || 0]}.png`}
+          alt="등급"
+          width="380"
+          height="350"
+          className="z-0 absolute"
+        />
         <Image
           src={`http://d23ybff5p6c2tt.cloudfront.net/${card?.id}.png`}
           alt="카드"
@@ -51,7 +58,7 @@ const InventoryCardDetailPage: NextPage = () => {
       </div>
 
       <div className="flex w-full">
-        <div className="flex flex-col flex-1 mt-4">
+        <div className="flex flex-col flex-1">
           <span
             className="text-3xl font-medium text-white"
             style={{ fontFamily: 'koverwatch' }}
