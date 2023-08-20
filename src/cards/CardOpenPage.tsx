@@ -76,6 +76,7 @@ const CardOpenPage: NextPage = () => {
       try {
         const res = await axios.post<CommonResponse<{ cards: CardItem[] }>>(
           'https://stevejkang.jp.ngrok.io/card-packages/1',
+          {},
           {
             headers: {
               'X-Inevitable-Auth-Key': localStorage.getItem('access_token'),
